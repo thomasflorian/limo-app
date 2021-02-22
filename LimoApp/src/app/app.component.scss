@@ -1,3 +1,5 @@
+$blue: rgb(33, 84, 179);
+
 .background-color {
     background-color: rgb(70, 116, 175);
 }
@@ -19,8 +21,8 @@
 .box {
     background-color: rgb(165, 165, 165);
     border-color:  rgb(33, 84, 179);
-    border-top: solid 2px rgb(33, 84, 179);
-    border-bottom: solid 2px rgb(33, 84, 179);
+    border-top: solid 2px $blue;
+    border-bottom: solid 2px $blue;
     margin: 30px 10px;
     margin-bottom: 0px;
 }
@@ -62,6 +64,6 @@
     background-color:rgb(165, 165, 165);
     --background: rgb(165, 165, 165);
     --color: rgb(33, 84, 179);
-    border: solid 2px rgb(33, 84, 179);
+    border: solid 2px $blue;
     text-transform: uppercase;
 }

@@ -1,0 +1,13 @@
+{
+  "locations": [{
+      "name": "The Commons",
+      "address": "The Commons, 721 N 17th St, Milwaukee, WI 53233",
+      "gps": [43.040119796976896, -87.93435173870222]
+    },
+    {
+      "name": "Cudahy Hall",
+      "address": "Katharine Reed Cudahy Hall, Milwaukee, WI 53233",
+      "gps": [43.03831913359743, -87.92885918756656]
+    }
+  ]
+}

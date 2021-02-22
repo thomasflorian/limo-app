@@ -24,3 +24,31 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+$dblue: rgb(33, 84, 179);
+$lblue: rgb(70, 116, 175);
+$gray:  rgb(165, 165, 165);
+$lgray: rgb(211, 211, 211);
+$white: whitesmoke;
+
+.background-color {
+    background-color: $lblue;
+}
+
+.margin-top{
+    margin-top: 30px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.map {
+    position: absolute;
+    top: 30%;
+    height: 70%;
+    width: 100%;
+    object-fit: cover;
+}

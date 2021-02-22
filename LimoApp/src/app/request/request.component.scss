@@ -1,0 +1,50 @@
+$dblue: rgb(33, 84, 179);
+$lblue: rgb(70, 116, 175);
+$gray:  rgb(165, 165, 165);
+$lgray: rgb(211, 211, 211);
+$white: whitesmoke;
+
+.box {
+    background-color: $gray;
+    --background: $gray;
+}
+
+.box-title{
+    color: $dblue;
+}
+
+.input {
+    background-color: $white;
+    color: rgb(48, 48, 48);
+    text-indent: 20px;
+    width: 90%;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 5%;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+}
+
+.list-container {
+    border-radius: 10px;
+}
+
+.list {
+    background-color: $lgray;
+    --background: $lgray;
+    --color: rgb(48, 48, 48);
+    text-indent: 10px;
+    padding: 0px;
+}
+
+.request-button {
+    background-color: $lgray;
+    --background: $lgray;
+    --color: rgb(70, 116, 175);
+    border: solid 2px $dblue;
+    border-radius: 5px;
+    text-transform: uppercase;
+    position: fixed;
+    bottom: 10%;
+}
