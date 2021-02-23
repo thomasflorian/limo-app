@@ -12,15 +12,17 @@ export class RequestComponent implements OnInit {
   _filter : string = "";
   locations : ILocation[];
   filteredLocations : ILocation[];
+  disabled : boolean = true;
 
   @Input()
   get filter() {
     return this._filter;
   }
-  
+
   set filter(val: string) { 
     this._filter = val;
     this.getFilteredLocations(this._filter);
+    this.disabled = this.filteredLocations.length === 0;
   }
 
   constructor(private locationService: LocationService) { }

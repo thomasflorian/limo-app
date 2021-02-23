@@ -45,10 +45,6 @@ $white: whitesmoke;
     justify-content: center;
 }
 
-.map {
-    position: absolute;
-    top: 30%;
-    height: 70%;
-    width: 100%;
-    object-fit: cover;
+.debug {
+    background-color: red !important;
 }

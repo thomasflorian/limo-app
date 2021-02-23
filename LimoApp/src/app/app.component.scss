@@ -1,69 +1,11 @@
-$blue: rgb(33, 84, 179);
-
-.background-color {
-    background-color: rgb(70, 116, 175);
-}
-
-.container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+$gold : rgb(255, 223, 41);
+$dblue: rgb(33, 84, 179);
 
 .map {
+    z-index: 1;
     position: absolute;
     top: 30%;
     height: 70%;
     width: 100%;
     object-fit: cover;
-}
-
-.box {
-    background-color: rgb(165, 165, 165);
-    border-color:  rgb(33, 84, 179);
-    border-top: solid 2px $blue;
-    border-bottom: solid 2px $blue;
-    margin: 30px 10px;
-    margin-bottom: 0px;
-}
-
-.header {
-    color: rgb(33, 84, 179);
-    text-align: left;
-    margin-left: 20px;
-}
-
-.input {
-    background-color: whitesmoke;
-    color: rgb(48, 48, 48);
-    text-indent: 20px;
-    width: 90%;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    margin-left: 5%;
-    -moz-border-radius: 50px;
-    -webkit-border-radius: 50px;
-}
-
-.list-container {
-    background-color: whitesmoke;
-    --background: whitesmoke;
-    margin: 0px 10px;
-    padding: 0px;
-}
-
-.list {
-    background-color: whitesmoke;
-    --background: whitesmoke;
-    --color: rgb(48, 48, 48);
-    text-indent: 10px;
-    padding-right: 20px;
-}
-
-.request-button {
-    background-color:rgb(165, 165, 165);
-    --background: rgb(165, 165, 165);
-    --color: rgb(33, 84, 179);
-    border: solid 2px $blue;
-    text-transform: uppercase;
 }

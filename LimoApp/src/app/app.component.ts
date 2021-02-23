@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+
+  loading : boolean = true;
+
   constructor() {}
+
+  OnInit(){
+    setTimeout(() => {console.log('map loaded');}, 10000);
+    this.loading = false;
+  }
 }
