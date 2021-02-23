@@ -2,16 +2,10 @@
   <ion-card class="margin-top list-container">
     <ion-card-header class="box">
       <ion-card-title class="box-title">Where To?</ion-card-title>
-      <ion-input class="input"></ion-input>
+      <ion-input [(ngModel)]="filter" class="input"></ion-input>
     </ion-card-header>
-    <ion-item href="#" class="list">
-      <ion-label>Test1 </ion-label>
-    </ion-item>
-    <ion-item href="#" class="list">
-      <ion-label>Test2 </ion-label>
-    </ion-item>
-    <ion-item href="#" class="list">
-      <ion-label>Test3 </ion-label>
+    <ion-item href="#" lines="none" class="list" *ngFor = "let loc of filteredLocations">
+      <ion-label>{{ loc.name }}</ion-label>
     </ion-item>
   </ion-card>
 <div class="container">

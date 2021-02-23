@@ -28,6 +28,7 @@ $white: whitesmoke;
 
 .list-container {
     border-radius: 10px;
+    
 }
 
 .list {
@@ -36,6 +37,9 @@ $white: whitesmoke;
     --color: rgb(48, 48, 48);
     text-indent: 10px;
     padding: 0px;
+    box-shadow: none !important;
+    border-top: 1px solid $gray;
+    font-size: 0.9rem;
 }
 
 .request-button {
