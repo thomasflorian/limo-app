@@ -7,12 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent {
 
-  loading : boolean = true;
-
   constructor() {}
-
-  OnInit(){
-    setTimeout(() => {console.log('map loaded');}, 10000);
-    this.loading = false;
-  }
+  
 }

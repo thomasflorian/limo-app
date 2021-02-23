@@ -27,24 +27,24 @@
 
 $dblue: rgb(33, 84, 179);
 $lblue: rgb(70, 116, 175);
-$gray:  rgb(165, 165, 165);
+$gray: rgb(165, 165, 165);
 $lgray: rgb(211, 211, 211);
 $white: whitesmoke;
 
 .background-color {
-    background-color: $lblue;
+  background-color: $lblue;
 }
 
-.margin-top{
-    margin-top: 30px;
+.margin-top {
+  margin-top: 30px;
 }
 
 .container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .debug {
-    background-color: red !important;
+  background-color: red !important;
 }
