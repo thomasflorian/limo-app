@@ -6,13 +6,12 @@ $dgray: rgb(80, 80, 80);
 $white: whitesmoke;
 
 .box {
-  background-color: #bec1c5;
+  background-color: #c7cace;
   padding-top: 10px;
 }
 
 .box-title {
   font-family: 'Open Sans', sans-serif;
-  //text-transform: uppercase;
   font-weight: 400;
   font-size: 1.2em;
   color: rgb(0, 0, 0);
@@ -26,6 +25,11 @@ $white: whitesmoke;
   margin-top: 5px;
 }
 
+// Extra indent for ios
+.input.ios {
+    text-indent: 5%;
+}
+
 .search-icon {
     color: $dgray;
     margin-left: 8px;
@@ -36,8 +40,7 @@ $white: whitesmoke;
 }
 
 .list {
-  background-color: $white;
-  --background: #bec1c5;
+  --background: #c7cace;
   --color: rgb(0, 0, 0);
   text-indent: 10px;
   border-top: 1px solid $gray;
@@ -47,11 +50,14 @@ $white: whitesmoke;
 .request-button {
   font-family: 'Open Sans', sans-serif;
   font-weight: 700;
-  background-color: $lgray;
   --background: #48628d;
   --color: rgba(255, 249, 227, 0.938);
-  border: solid 1px rgb(173, 171, 171);
-  border-radius: 5px;
+  --background-hover:  #4e82d4; //ios hovor color
+  --border-radius: 8px;
+  --box-shadow: 1px 2px rgba(0, 0, 0, 0.171);
   position: fixed;
   bottom: 12%;
+} 
+.request-button:hover {
+    --background: #4e82d4; //android hovor color
 }

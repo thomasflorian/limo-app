@@ -1,6 +1,6 @@
 import { LocationService } from './location.service';
 import { ILocation } from './../shared/ILocation';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-request',
@@ -12,7 +12,7 @@ export class RequestComponent implements OnInit {
   _filter: string = "";
   locations: ILocation[];
   filteredLocations: ILocation[];
-  @Input()
+
   get filter() {
     return this._filter;
   }
