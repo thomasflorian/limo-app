@@ -13,6 +13,7 @@ export class RequestComponent implements OnInit {
   locations: ILocation[];
   filteredLocations: ILocation[];
   disabled: boolean = true;
+  hidden: boolean = true;
 
   @Input()
   get filter() {
@@ -23,6 +24,7 @@ export class RequestComponent implements OnInit {
     this._filter = val;
     this.getFilteredLocations(this._filter);
     this.disabled = this.filteredLocations.length === 0;
+    this.hidden = false;
   }
 
   constructor(private locationService: LocationService) { }

@@ -1,13 +1,13 @@
 <div class="ion-margin">
   <ion-card class="margin-top list-container">
     <ion-card-header class="box">
-      <ion-card-title class="box-title">Where To?</ion-card-title>
-      <ion-input [(ngModel)]="filter" class="input"></ion-input>
+      <ion-card-title class="box-title">Where to?</ion-card-title>
+      <ion-input [(ngModel)]="filter" class="input"><ion-icon class="search-icon" name="search-outline"></ion-icon></ion-input>
     </ion-card-header>
-    <ion-item href="#" lines="none" class="list" *ngFor = "let loc of filteredLocations">
+    <ion-item href="#" lines="none" class="list" *ngFor="let loc of filteredLocations">
       <ion-label>{{ loc.name }}</ion-label>
     </ion-item>
   </ion-card>
-<div class="container">
-  <ion-button size="large" class="request-button" [disabled]="disabled">Request LIMO</ion-button>
-</div>
+  <div class="container">
+    <ion-button size="large" class="request-button" [disabled]="disabled" [hidden]="hidden">REQUEST LIMO</ion-button>
+  </div>
