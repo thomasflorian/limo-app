@@ -1,55 +1,57 @@
 $dblue: rgb(33, 84, 179);
 $lblue: rgb(70, 116, 175);
-$gray:  rgb(165, 165, 165);
+$gray: rgb(165, 165, 165);
 $lgray: rgb(211, 211, 211);
+$dgray: rgb(80, 80, 80);
 $white: whitesmoke;
 
 .box {
-    background-color: $gray;
-    --background: $gray;
+  background-color: #bec1c5;
+  padding-top: 10px;
 }
 
-.box-title{
-    color: $dblue;
+.box-title {
+  font-family: 'Open Sans', sans-serif;
+  //text-transform: uppercase;
+  font-weight: 400;
+  font-size: 1.2em;
+  color: rgb(0, 0, 0);
 }
 
 .input {
-    background-color: $white;
-    color: rgb(48, 48, 48);
-    text-indent: 20px;
-    width: 90%;
-    border-radius: 5px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 5%;
-    -moz-border-radius: 15px;
-    -webkit-border-radius: 15px;
+  background-color: rgb(255, 253, 245);
+  color: rgb(48, 48, 48);
+  border-radius: 5px;
+  border: 1px solid rgb(206, 206, 206);
+  margin-top: 5px;
+}
+
+.search-icon {
+    color: $dgray;
+    margin-left: 8px;
 }
 
 .list-container {
-    border-radius: 10px;
-    
+  border-radius: 10px;
 }
 
 .list {
-    background-color: $lgray;
-    --background: $lgray;
-    --color: rgb(48, 48, 48);
-    text-indent: 10px;
-    padding: 0px;
-    box-shadow: none !important;
-    border-top: 1px solid $gray;
-    font-size: 0.9rem;
+  background-color: $white;
+  --background: #bec1c5;
+  --color: rgb(0, 0, 0);
+  text-indent: 10px;
+  border-top: 1px solid $gray;
+  font-size: 0.9rem;
 }
 
 .request-button {
-    background-color: $lgray;
-    --background: $lgray;
-    --color: rgb(70, 116, 175);
-    border: solid 2px $dblue;
-    border-radius: 5px;
-    text-transform: uppercase;
-
-    position: fixed;
-    bottom: 15%;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  background-color: $lgray;
+  --background: #48628d;
+  --color: rgba(255, 249, 227, 0.938);
+  border: solid 1px rgb(173, 171, 171);
+  border-radius: 5px;
+  position: fixed;
+  bottom: 12%;
 }
