@@ -6,23 +6,23 @@ $dgray: rgb(80, 80, 80);
 $white: whitesmoke;
 
 .box {
-  background-color: rgb(230, 230, 230);
-  --background: rgb(230, 230, 230);
+  background-color: #bec1c5;
   padding-top: 10px;
 }
 
 .box-title {
   font-family: 'Open Sans', sans-serif;
+  //text-transform: uppercase;
   font-weight: 400;
   font-size: 1.2em;
-  color: rgb(58, 58, 58);
+  color: rgb(0, 0, 0);
 }
 
 .input {
-  background-color: $white;
+  background-color: rgb(255, 253, 245);
   color: rgb(48, 48, 48);
   border-radius: 5px;
-  border: 1px solid rgb(148, 148, 148);
+  border: 1px solid rgb(206, 206, 206);
   margin-top: 5px;
 }
 
@@ -37,8 +37,8 @@ $white: whitesmoke;
 
 .list {
   background-color: $white;
-  --background: $lgray;
-  --color: rgb(48, 48, 48);
+  --background: #bec1c5;
+  --color: rgb(0, 0, 0);
   text-indent: 10px;
   border-top: 1px solid $gray;
   font-size: 0.9rem;
@@ -46,11 +46,11 @@ $white: whitesmoke;
 
 .request-button {
   font-family: 'Open Sans', sans-serif;
-  font-weight: 400;
+  font-weight: 700;
   background-color: $lgray;
-  --background: whitesmoke;
-  --color: rgb(58, 58, 58);
-  border: solid 1px $dgray;
+  --background: #48628d;
+  --color: rgba(255, 249, 227, 0.938);
+  border: solid 1px rgb(173, 171, 171);
   border-radius: 5px;
   position: fixed;
   bottom: 12%;
