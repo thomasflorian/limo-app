@@ -26,7 +26,7 @@ export class RequestComponent implements OnInit {
 
   ngOnInit() {
     this.locations = this.locationService.getLocations();
-    this.getFilteredLocations(this._filter);
+    this.filteredLocations = [];
   }
 
   getFilteredLocations(input: string) {

@@ -7,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoadingPage implements OnInit {
 
+  hidden: boolean = false;
+
   constructor() { }
 
   ngOnInit() {
+    setTimeout( () => { this.hidden = true; }, 3000 );
   }
-
 }

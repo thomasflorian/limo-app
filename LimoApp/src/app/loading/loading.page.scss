@@ -3,3 +3,15 @@ $lblue: rgb(70, 116, 175);
 $gray: rgb(165, 165, 165);
 $lgray: rgb(211, 211, 211);
 $white: whitesmoke;
+
+.fixed {
+    position: fixed;
+    top: 50%;
+    left: 25%;
+    z-index: 1;
+    color: black;
+    text-align: center;
+    font-weight: bolder;
+    background-color: wheat;
+    padding: 10px;
+}
