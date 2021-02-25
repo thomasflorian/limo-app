@@ -35,21 +35,62 @@ $lgray: rgb(211, 211, 211);
 $white: whitesmoke;
 
 html {
-    font-family: 'Open Sans', sans-serif !important;
+  font-family: 'Open Sans', sans-serif !important;
 }
 
-.background-color {
-  background-color: #d9dce0;
+.root {
+  background-color: #d9dce0 !important;
+  position: absolute;
+  height: 100%;
+  width: 100%;
 }
 
-.margin-top {
+.header {
+  background-color: transparent;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.margin-top-1 {
+  margin-top: 10px;
+}
+
+.margin-top-2 {
+  margin-top: 20px;
+}
+
+.margin-top-3 {
   margin-top: 30px;
 }
 
+.margin-top-4 {
+  margin-top: 40px;
+}
+
+.margin-top-5 {
+  margin-top: 50px;
+}
+
 .container {
+  background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.map {
+    position: fixed;
+    top: 14%;
+    height: 69%;
+    object-fit: cover;
+    border-radius: 6px;
 }
 
 .debug {

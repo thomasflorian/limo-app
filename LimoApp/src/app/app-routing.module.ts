@@ -1,8 +1,13 @@
+import { LoadingPage } from './loading/loading.page';
+import { HomePage } from './home/home.page';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { LoadingPage } from './loading/loading.page';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: '', redirectTo: 'loading', pathMatch: 'full'},
+  { path: 'home', component: HomePage },
+  { path: 'loading', component: LoadingPage },
+];
 
 @NgModule({
   imports: [

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-loading',
@@ -9,9 +10,9 @@ export class LoadingPage implements OnInit {
 
   hidden: boolean = false;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-    setTimeout( () => { this.hidden = true; }, 3000 );
+    setTimeout( () => { this.router.navigate(['/home']) }, 1000 );
   }
 }

@@ -1,7 +1,6 @@
 import { LocationService } from './location.service';
 import { ILocation } from './../shared/ILocation';
 import { Component, OnInit } from '@angular/core';
-
 @Component({
   selector: 'app-request',
   templateUrl: './request.component.html',
