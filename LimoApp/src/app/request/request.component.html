@@ -9,7 +9,7 @@
             <ion-icon class="search-icon" name="search-outline"></ion-icon>
           </ion-input>
         </ion-card-header>
-        <ion-item href="#" lines="none" class="list" *ngFor="let loc of filteredLocations">
+        <ion-item routerLink="eta" lines="none" class="list" *ngFor="let loc of filteredLocations">
           <ion-label>{{ loc.name }}</ion-label>
         </ion-item>
       </ion-card>
