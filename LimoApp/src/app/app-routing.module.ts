@@ -6,9 +6,10 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'loading', pathMatch: 'full'},
+  { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: HomePage, children: [
-    {path: '', component: RequestComponent},
+    {path: '', redirectTo: 'loading', pathMatch: 'full'},
+    {path: 'loading', component: RequestComponent},
     {path: 'eta', component: EtaComponent}
   ]},
   { path: 'loading', component: LoadingPage }

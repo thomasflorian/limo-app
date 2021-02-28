@@ -10,7 +10,9 @@ export class RequestComponent implements OnInit {
 
   _filter: string = "";
   locations: ILocation[];
+  selectedLocation: ILocation;
   filteredLocations: ILocation[];
+  disabled: boolean = true;
 
   get filter() {
     return this._filter;
@@ -28,6 +30,11 @@ export class RequestComponent implements OnInit {
     this.filteredLocations = [];
   }
 
+  onClick(loc: ILocation) {
+    this.selectedLocation = loc;
+    this.disabled = false;
+  }
+
   getFilteredLocations(input: string) {
     if (input !== "") {
       // Filter first selects locations that start with filter string and then locations that contain filter string.
@@ -37,6 +44,8 @@ export class RequestComponent implements OnInit {
     } else {
       this.filteredLocations = [];
     }
+    this.selectedLocation = null;
+    this.disabled = true;
   }
 
 }

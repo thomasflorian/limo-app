@@ -10,11 +10,12 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { HomePage } from './home/home.page';
 import { RequestComponent } from './request/request.component';
+import { EtaComponent } from './eta/eta.component';
 import { LoadingPage } from './loading/loading.page';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MapComponent } from './map/map.component';
 @NgModule({
-  declarations: [AppComponent, HomePage, RequestComponent, LoadingPage, ToolbarComponent, MapComponent],
+  declarations: [AppComponent, HomePage, RequestComponent, LoadingPage, ToolbarComponent, MapComponent, EtaComponent],
   entryComponents: [],
   imports: [BrowserModule, FormsModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

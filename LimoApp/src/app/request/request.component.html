@@ -9,13 +9,13 @@
             <ion-icon class="search-icon" name="search-outline"></ion-icon>
           </ion-input>
         </ion-card-header>
-        <ion-item routerLink="eta" lines="none" class="list" *ngFor="let loc of filteredLocations">
+        <ion-item lines="none" class="list" (click)="onClick(loc)" [ngClass]="{'highlight' : selectedLocation === loc}" *ngFor="let loc of filteredLocations">
           <ion-label>{{ loc.name }}</ion-label>
         </ion-item>
       </ion-card>
     </div>
     <div class="container">
-      <ion-button size="large" class="request-button">REQUEST LIMO</ion-button>
+      <ion-button [disabled]="disabled" [routerLink]="['../eta']" size="large" class="request-button">REQUEST LIMO</ion-button>
     </div>
   </div>
   <ion-footer class="footer">

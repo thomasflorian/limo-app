@@ -1,3 +1,5 @@
+import { MapComponent } from './../map/map.component';
+import { ToolbarComponent } from './../toolbar/toolbar.component';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
