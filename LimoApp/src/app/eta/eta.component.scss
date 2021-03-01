@@ -32,3 +32,11 @@ $white: whitesmoke;
 .cancel-button:hover {
     --background: #b62525; //android hovor color
 }
+
+.list {
+    background-color: #c7cace;
+    --background: #c7cace;
+    --color: rgb(0, 0, 0);
+    border-top: 1px solid $gray;
+    font-size: 0.9rem;
+  }
