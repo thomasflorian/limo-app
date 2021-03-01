@@ -1,6 +1,8 @@
-# Software-Methodologies-Project
+# Limo App
+The Limo App is being designed to address the current issues with the Marquette Limo System.
 
+### How to run
 1. Install node.js from http://nodejs.org/
-2. Install Ionic and Cordova `npm install cordova ionic -g`
-3. Pull github folder and cd into ./LimoApp
-4. Start ionic lab `ionic serve --lab`
+2. Clone github repo and cd into ./LimoApp
+3. Install all dependencies `npm install`
+4. Start ionic's app emulator `ionic serve --lab`
