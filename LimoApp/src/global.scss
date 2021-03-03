@@ -93,6 +93,19 @@ html {
     border-radius: 6px;
 }
 
+.input {
+  background-color: rgb(255, 253, 245);
+  color: rgb(48, 48, 48);
+  border-radius: 5px;
+  border: 1px solid rgb(206, 206, 206);
+  margin-top: 5px;
+}
+
+// Extra indent for ios
+.input.ios {
+    text-indent: 5%;
+}
+
 .debug {
   background-color: red !important;
 }
