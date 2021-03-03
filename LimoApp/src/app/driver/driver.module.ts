@@ -1,3 +1,4 @@
+import { ToolbarComponent } from './../app-components/toolbar/toolbar.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +16,6 @@ import { DriverPage } from './driver.page';
     IonicModule,
     DriverPageRoutingModule
   ],
-  declarations: [DriverPage]
+  declarations: [DriverPage, ToolbarComponent]
 })
 export class DriverPageModule {}

@@ -1,3 +1,4 @@
+import { DriverPage } from './driver/driver.page';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -15,7 +16,7 @@ import { LoadingPage } from './loading/loading.page';
 import { ToolbarComponent } from './app-components/toolbar/toolbar.component';
 import { MapComponent } from './app-components/map/map.component';
 @NgModule({
-  declarations: [AppComponent, HomePage, RequestComponent, LoadingPage, ToolbarComponent, MapComponent, EtaComponent],
+  declarations: [AppComponent, HomePage, RequestComponent, LoadingPage, ToolbarComponent, MapComponent, EtaComponent, DriverPage],
   entryComponents: [],
   imports: [BrowserModule, FormsModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

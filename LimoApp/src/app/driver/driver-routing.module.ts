@@ -6,13 +6,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { DriverPage } from './driver.page';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'login', pathMatch: 'full'},
-    {path: 'login', component: LoginComponent}
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent }
 ];
 
 @NgModule({
-  declarations: [ToolbarComponent],
+  declarations: [ToolbarComponent, LoginComponent],
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DriverPageRoutingModule {}
+export class DriverPageRoutingModule { }
