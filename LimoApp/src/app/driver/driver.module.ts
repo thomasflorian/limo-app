@@ -1,4 +1,7 @@
-import { ToolbarComponent } from './../app-components/toolbar/toolbar.component';
+import { DriverHomeComponent } from './driver-components/driver-home/driver-home.component';
+import { DriverMapComponent } from './driver-components/driver-map/driver-map.component';
+
+import { LoginComponent } from './driver-components/login/login.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,8 +17,8 @@ import { DriverPage } from './driver.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    DriverPageRoutingModule
-  ],
-  declarations: [DriverPage, ToolbarComponent]
+    DriverPageRoutingModule],
+  declarations: [DriverPage, LoginComponent, DriverMapComponent, DriverHomeComponent],
+  exports: [DriverPage, LoginComponent, DriverMapComponent, DriverHomeComponent]
 })
-export class DriverPageModule {}
+export class DriverPageModule { }

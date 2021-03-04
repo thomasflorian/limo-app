@@ -1,4 +1,4 @@
-import { DriverPage } from './driver/driver.page';
+import { DriverPageModule } from './driver/driver.module';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -16,10 +16,10 @@ import { LoadingPage } from './loading/loading.page';
 import { ToolbarComponent } from './app-components/toolbar/toolbar.component';
 import { MapComponent } from './app-components/map/map.component';
 @NgModule({
-  declarations: [AppComponent, HomePage, RequestComponent, LoadingPage, ToolbarComponent, MapComponent, EtaComponent, DriverPage],
+  declarations: [AppComponent, HomePage, RequestComponent, LoadingPage, ToolbarComponent, MapComponent, EtaComponent],
   entryComponents: [],
-  imports: [BrowserModule, FormsModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, FormsModule, IonicModule.forRoot(), AppRoutingModule, DriverPageModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

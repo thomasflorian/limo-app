@@ -13,6 +13,6 @@ export class LoadingPage implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    setTimeout( () => { this.router.navigate(['/home']) }, 2000 );
+    setTimeout( () => { this.router.navigate(['/home']) }, 100 );
   }
 }
