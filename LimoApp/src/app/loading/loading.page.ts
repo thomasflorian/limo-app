@@ -12,6 +12,7 @@ export class LoadingPage implements OnInit {
 
   constructor(private router: Router) { }
 
+  // Runs on component load. Reroutes to home screen after 100ms.
   ngOnInit() {
     setTimeout( () => { this.router.navigate(['/home']) }, 100 );
   }

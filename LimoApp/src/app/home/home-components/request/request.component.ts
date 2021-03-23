@@ -14,27 +14,34 @@ export class RequestComponent implements OnInit {
   filteredLocations: ILocation[];
   disabled: boolean = true;
 
+  // Getter and setter for two way data binding from search bar.
   get filter() {
     return this._filter;
   }
 
   set filter(val: string) {
     this._filter = val;
+    // Updates results when search bar input is updated.
     this.getFilteredLocations(this._filter);
   }
 
   constructor(private locationService: LocationService) { }
 
+  // Runs when component first loads.
   ngOnInit() {
+    // Loads in location data.
     this.locations = this.locationService.getLocations();
     this.filteredLocations = [];
   }
 
+  // Runs when list item is clicked.
   onClick(loc: ILocation) {
+    // Highlights selected item in list.
     this.selectedLocation = loc;
     this.disabled = false;
   }
 
+  // Gets filtered locations from search bar input.
   getFilteredLocations(input: string) {
     if (input !== "") {
       // Filter first selects locations that start with filter string and then locations that contain filter string.
