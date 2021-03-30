@@ -1,0 +1,42 @@
+// Styling for the driver-home component. Refer to HTML to see where the classes are applied.
+
+$dblue: rgb(33, 84, 179);
+$lblue: rgb(70, 116, 175);
+$gray: rgb(165, 165, 165);
+$lgray: rgb(211, 211, 211);
+$dgray: rgb(80, 80, 80);
+$white: whitesmoke;
+
+.box {
+  background-color: #c7cace;
+  padding-top: 10px;
+  --box-shadow: 1px 2px rgba(0, 0, 0, 0.171);
+}
+
+.box-title {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 1.2em;
+  color: rgb(0, 0, 0);
+}
+
+.box-container {
+  width: 80%;
+  align-self: center;
+  border-radius: 10px;
+}
+
+.confirm-button {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  --background: #48628d;
+  --color: rgba(255, 249, 227, 0.938);
+  --background-hover:  #4e82d4; //ios hovor color
+  --border-radius: 8px;
+  --box-shadow: 1px 2px rgba(0, 0, 0, 0.171);
+  position: fixed;
+  bottom: 12%;
+} 
+.confirm-button:hover {
+    --background: #4e82d4; //android hovor color
+}
