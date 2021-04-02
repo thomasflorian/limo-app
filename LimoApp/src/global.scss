@@ -25,79 +25,23 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-/* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap');
+$ion-color-medium: #c1c2c7;
+$ion-color-medium-shade: #b2b6bb;
+$ion-color-medium-tint: #d0d0d3;
 
-$dblue: rgb(33, 84, 179);
-$lblue: rgb(70, 116, 175);
-$gray: rgb(165, 165, 165);
-$lgray: rgb(211, 211, 211);
-$white: whitesmoke;
-
-html {
-  font-family: 'Open Sans', sans-serif !important;
+ion-card, ion-item {
+  background-color: $ion-color-medium;
+  --background: $ion-color-medium;
 }
 
-.root {
-  background-color: #d9dce0 !important;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
-
-.header {
-  background-color: transparent;
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
-
-.footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
-
-.margin-top-1 {
-  margin-top: 10px;
-}
-
-.margin-top-2 {
-  margin-top: 20px;
-}
-
-.margin-top-3 {
-  margin-top: 30px;
-}
-
-.margin-top-4 {
-  margin-top: 40px;
-}
-
-.margin-top-5 {
-  margin-top: 50px;
-}
-
-.container {
-  background-color: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.text-indent {
+    text-indent: 15px;
 }
 
 .input {
-  background-color: rgb(255, 253, 245);
-  color: rgb(48, 48, 48);
-  border-radius: 5px;
-  border: 1px solid rgb(206, 206, 206);
-  margin-top: 5px;
-}
-
-// Extra indent for ios
-.input.ios {
-    text-indent: 5%;
-}
-
-.debug {
-  background-color: red !important;
-}
+    background-color: rgb(255, 253, 245);
+    color: rgb(48, 48, 48);
+    border-radius: 5px;
+    border: 1px solid rgb(206, 206, 206);
+    margin-top: 5px;
+  }

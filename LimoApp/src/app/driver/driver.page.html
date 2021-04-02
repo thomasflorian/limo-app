@@ -1,1 +1,49 @@
-<router-outlet></router-outlet>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-no-padding ion-text-start">
+      <ion-row class="ion-align-items-center">
+        <ion-col size="4">
+          <ion-button fill="clear" (click)="openMenu()">
+            <ion-icon size="large" color="light" class="icon" name="menu-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="4" class="ion-text-center">
+          Drive
+        </ion-col>
+      </ion-row>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- Scroll-y="false" disables vertical scrolling  -->
+<ion-content scroll-y="false">
+  <ion-row class="ion-justify-content-center">
+    <ion-card class="login">
+      <ion-card-header class="login-header">
+        <ion-card-subtitle>
+          Sign in
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-item lines="none" color="danger" class="fail" [hidden]="!failedLogin">
+        <ion-icon class="fail-icon" name="close-circle"></ion-icon>
+        <ion-label><strong>Error!</strong> Failed Login</ion-label>
+      </ion-item>
+      <ion-item lines="none" class="login-item">
+        <ion-input placeholder="Username" class="input" [(ngModel)]="username">
+          <ion-icon class="icon" name="person-outline"></ion-icon>
+        </ion-input>
+      </ion-item>
+      <ion-item lines="none" class="login-item">
+        <ion-input type="password" placeholder="Password" class="input" [(ngModel)]="password">
+          <ion-icon class="icon" name="lock-closed-outline"></ion-icon>
+        </ion-input>
+      </ion-item>
+    </ion-card>
+  </ion-row>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-row class="ion-justify-content-center ion-margin-bottom ion-padding-bottom">
+    <ion-button size="large" (click)="authenticate()">Sign In</ion-button>
+  </ion-row>
+</ion-footer>

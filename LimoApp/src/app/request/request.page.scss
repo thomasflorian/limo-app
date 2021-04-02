@@ -1,0 +1,27 @@
+$ion-color-light: #d9dce0;
+$ion-color-medium: #c1c2c7;
+$ion-color-medium-shade: #b2b6bb;
+$ion-color-medium-tint: #d0d0d3;
+
+.request-card {
+  margin-top: 18px;
+  border-radius: 10px;
+  max-width: 300px;
+  width: 85%;
+}
+
+.request-icon {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.list {
+    --color: rgb(0, 0, 0);
+    text-indent: 5px;
+    border-top: 1px solid $ion-color-medium-shade;
+    font-size: 0.9rem;
+}
+
+.highlight {
+    --background: #d0d0d3;
+}

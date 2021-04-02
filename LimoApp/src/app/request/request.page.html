@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-no-padding ion-text-start">
+      <ion-row class="ion-align-items-center">
+        <ion-col size="4">
+          <ion-button fill="clear" (click)="openMenu()">
+            <ion-icon size="large" color="light" class="icon" name="menu-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="4" class="ion-text-center">
+          Request
+        </ion-col>
+      </ion-row>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- Scroll-y="false" disables vertical scrolling  -->
+<ion-content scroll-y="false">
+  <ion-row class="ion-justify-content-center">
+    <ion-card class="request-card">
+      <ion-card-header>
+        <ion-card-subtitle>Where to?</ion-card-subtitle>
+        <ion-input [(ngModel)]="filter" class="input">
+          <ion-icon class="request-icon" name="search-outline"></ion-icon>
+        </ion-input>
+      </ion-card-header>
+      <ion-item lines="none" class="list" (click)="itemClick(loc)" [ngClass]="{'highlight' : selectedLocation === loc}" *ngFor="let loc of filteredLocations">
+        <ion-label>{{ loc.name }}</ion-label>
+      </ion-item>
+    </ion-card>
+  </ion-row>
+</ion-content>
+
+<ion-footer class="ion-no-border ion-padding-bottom ion-margin-bottom ">
+  <ion-row class="ion-justify-content-center">
+    <ion-button [disabled]="disabled" size="large" (click)="request()">REQUEST LIMO</ion-button>
+  </ion-row>
+</ion-footer>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuController, IonRouterOutlet } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
@@ -7,18 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfilePage implements OnInit {
 
-  private _name : string;
+  constructor(private menu: MenuController, private routerOutlet: IonRouterOutlet) { }
 
-  get name() {
-    return this._name;
+  openMenu() {
+    this.menu.enable(true, 'limomenu');
+    this.menu.open('limomenu');
   }
-  set name(val : string){
-    this._name = val;
-  }
-
-  constructor() { }
-
   ngOnInit() {
+    this.routerOutlet.swipeGesture = false;
   }
-
 }

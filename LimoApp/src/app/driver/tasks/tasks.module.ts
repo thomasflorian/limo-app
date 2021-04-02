@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DriverPageRoutingModule } from './driver-routing.module';
+import { TasksPageRoutingModule } from './tasks-routing.module';
 
-import { DriverPage } from './driver.page';
+import { TasksPage } from './tasks.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DriverPageRoutingModule
+    TasksPageRoutingModule
   ],
-  declarations: [DriverPage]
+  declarations: [TasksPage]
 })
-export class DriverPageModule {}
+export class TasksPageModule {}
