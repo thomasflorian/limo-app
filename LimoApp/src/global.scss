@@ -29,19 +29,20 @@ $ion-color-medium: #c1c2c7;
 $ion-color-medium-shade: #b2b6bb;
 $ion-color-medium-tint: #d0d0d3;
 
-ion-card, ion-item {
+ion-card,
+ion-item {
   background-color: $ion-color-medium;
   --background: $ion-color-medium;
 }
 
 .text-indent {
-    text-indent: 15px;
+  text-indent: 15px;
 }
 
 .input {
-    background-color: rgb(255, 253, 245);
-    color: rgb(48, 48, 48);
-    border-radius: 5px;
-    border: 1px solid rgb(206, 206, 206);
-    margin-top: 5px;
-  }
+  background-color: rgb(255, 253, 245);
+  color: rgb(48, 48, 48);
+  border-radius: 5px;
+  border: 1px solid rgb(206, 206, 206);
+  margin-top: 5px;
+}
