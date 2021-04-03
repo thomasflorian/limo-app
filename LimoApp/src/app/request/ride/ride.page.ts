@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Router } from '@angular/router';
-import { GoogleMaps } from '@ionic-native/google-maps';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '../../interfaces/location';
 import { IonRouterOutlet, MenuController } from '@ionic/angular';
 
 @Component({
@@ -10,13 +10,16 @@ import { IonRouterOutlet, MenuController } from '@ionic/angular';
 })
 export class RidePage implements OnInit {
 
+  selectedLocation: Location;
+
   @ViewChild('map', {static:false}) mapElement: ElementRef;
   map: google.maps.Map;
-  constructor(private router: Router, private routerOutlet: IonRouterOutlet, private menu: MenuController) { }
+  constructor(private router: Router, private route: ActivatedRoute, private routerOutlet: IonRouterOutlet, private menu: MenuController) { }
 
   ngOnInit() {
     this.routerOutlet.swipeGesture = false;
     this.menu.swipeGesture(false);
+    this.selectedLocation = this.router.getCurrentNavigation().extras.state.loc;
   }
 
   ionViewWillEnter(){
@@ -27,8 +30,8 @@ export class RidePage implements OnInit {
     this.router.navigate([".."]);
   }
 
-  loadMap(){
-    let latLng = new google.maps.LatLng(43.040119796976896, -87.93435173870222);
+  loadMap(){ 
+    let latLng = new google.maps.LatLng(this.selectedLocation.gps[0], this.selectedLocation.gps[1]);
     let mapOptions : google.maps.MapOptions = {
       center: latLng,
       zoom: 16,

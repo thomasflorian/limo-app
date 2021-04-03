@@ -1,8 +1,9 @@
 import { Location } from './../interfaces/Location';
 import { LocationsService } from './locations.service';
 import { Component, OnInit } from '@angular/core';
-import { IonRouterOutlet, MenuController } from '@ionic/angular';
+import { IonRouterOutlet, MenuController, NavController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-request',
@@ -52,7 +53,7 @@ export class RequestPage implements OnInit {
   }
 
   request() {
-    this.router.navigate(['ride'], {relativeTo: this.route})
+    this.router.navigate(['ride'], {relativeTo: this.route, state: {loc: this.selectedLocation}});
   }
 
   // Gets filtered locations from search bar input.
