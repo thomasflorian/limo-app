@@ -8,9 +8,10 @@ import { IonRouterOutlet, MenuController } from '@ionic/angular';
   styleUrls: ['./driver.page.scss'],
 })
 export class DriverPage implements OnInit {
-
+  fontsize: number = 0.75;
   _username: string;
   _password: string;
+  empty: boolean = true;
   failedLogin: boolean = false;
 
   // Getters and setters for two way data binding from username input.
@@ -33,10 +34,13 @@ export class DriverPage implements OnInit {
 
   constructor(private router: Router, private route: ActivatedRoute, private routerOutlet: IonRouterOutlet, private menu: MenuController) { }
 
+  // Runs when menu bar icon is clicked.
   openMenu() {
     this.menu.enable(true, 'limomenu');
     this.menu.open('limomenu');
   }
+
+  // Runs when page is first loaded
   ngOnInit() {
     this.routerOutlet.swipeGesture = false;
   }
@@ -45,11 +49,15 @@ export class DriverPage implements OnInit {
   // This method is called with angular event binding in the HTML file.
   authenticate() {
     if (this.username === "admin" && this.password === "password"){
+      this._username = "";
+      this._password = "";
+      this.failedLogin = false;
       this.router.navigate(['tasks'], {relativeTo: this.route})
     } else {
       this._username = "";
       this._password = "";
       this.failedLogin = true;
+      this.fontsize += 0.05;
     }
 
   }

@@ -1,31 +1,29 @@
-.icon {
-  margin-left: 8px;
-  margin-right: 8px;
-}
+$ion-color-secondary: #989aa2;
 
-.login {
-  border-radius: 10px;
-  padding: 20px;
-  padding-top: 5px;
-  margin-top: 18px;
-  max-width: 300px;
-  width: 85%;
+.icon {
 }
 
 .login-header {
-  padding-bottom: 5px;
+  font-size: 2.3rem;
 }
 
-.login-item {
-  font-size: 0.9rem;
+.login-input {
+  --padding-bottom: 3px;
+  --padding-top: 3px;
+  border-bottom: 1px #d1d2d6 solid;
 }
 
-.fail {
-  border-radius: 10px;
-  font-size: 0.8rem;
-  margin-bottom: 4px;
+.fail-text {
+  margin: 4px 2px 0px 2px;
+  vertical-align: middle;
 }
 
 .fail-icon {
-  margin-right: 8px;
+  vertical-align: middle;
+  margin-left: 1px;
+  font-size: 0.9rem;
+}
+
+.margin-top {
+  margin-top: 20%;
 }
