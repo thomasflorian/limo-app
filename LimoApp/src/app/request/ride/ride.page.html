@@ -8,12 +8,35 @@
       </ion-row>
     </ion-title>
   </ion-toolbar>
+  <ion-row class="ion-justify-content-center">
+    <ion-card class="card">
+      <ion-row class="ion-justify-content-center">
+        <ion-text class="ion-text-center">
+          <h5><strong>Time to Pickup:</strong> {{ eta }} minutes</h5>
+        </ion-text>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3" class="ion-text-end">
+          <ion-label class="label" position="fixed">Pickup:</ion-label>
+        </ion-col>
+        <ion-col size="9">
+          <ion-input class="input" [(ngModel)]="pickup"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row >
+        <ion-col size="3" class="ion-text-end">
+          <ion-label class="label" position="fixed">Dropoff:</ion-label>
+        </ion-col>
+        <ion-col size="9">
+          <ion-input class="input" [(ngModel)]="dropoff"></ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </ion-row>
 </ion-header>
 
-<ion-content>
-  <div #map id="map">
-
-  </div>
+<ion-content scroll-y="false">
+  <div #map id="map"></div>
 </ion-content>
 
 <ion-footer class="ion-no-border ion-padding-bottom ion-margin-bottom ">

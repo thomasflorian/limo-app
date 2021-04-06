@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '../../interfaces/location';
-import { IonRouterOutlet, MenuController, NavController, Platform } from '@ionic/angular';
-import { Geolocation } from '@ionic-native/geolocation/ngx'
-import { LatLng } from '@ionic-native/google-maps';
-
+import { AlertController, IonRouterOutlet, MenuController, NavController, Platform } from '@ionic/angular';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 @Component({
   selector: 'app-ride',
   templateUrl: './ride.page.html',
@@ -12,12 +10,31 @@ import { LatLng } from '@ionic-native/google-maps';
 })
 export class RidePage implements OnInit {
 
+  eta: number = 8;
   destination: Location;
   destinationLatLng: google.maps.LatLng; w
   currLatLng: google.maps.LatLng;
-  // destinationMarker: google.maps.Marker;
-  // currLocationMarker: google.maps.Marker;
   directions: google.maps.DirectionsResult;
+
+  _pickup: string;
+  _dropoff: string;
+  // Getters and setters for two way data binding from pickup input.
+  get pickup() {
+    return this._pickup;
+  }
+
+  set pickup(val: string) {
+    this._pickup = val;
+  }
+
+  // Getters and setters for two way data binding from dropoff input.
+  get dropoff() {
+    return this._dropoff;
+  }
+
+  set dropoff(val: string) {
+    this._dropoff = val;
+  }
 
   // ViewChild selects the div element with id:"map" to load the map into.
   @ViewChild('map', { static: false }) mapElement: ElementRef;
@@ -36,15 +53,16 @@ export class RidePage implements OnInit {
       this.menu.swipeGesture(false);
       // Loads the location that was selected in the request page.
       this.destination = this.router.getCurrentNavigation().extras.state.loc;
-      this.destinationLatLng = new google.maps.LatLng(this.destination.gps[0], this.destination.gps[1])
+      this.destinationLatLng = new google.maps.LatLng(this.destination.gps[0], this.destination.gps[1]);
       // Make sure platform is ready before loading map.
       this.plt.ready().then(() => {
         // Loads map
         this.loadMap();
         this.loadUserPosition().then(resp => {
           this.currLatLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
+          this.prefillInputs();
           this.loadDirections();
-        });
+        })
       })
     }
   }
@@ -64,20 +82,15 @@ export class RidePage implements OnInit {
     let mapOptions: google.maps.MapOptions = {
       center: this.destinationLatLng,
       zoom: 16,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapId: "aaba5aeca8b4e8c4",
       disableDefaultUI: true
-    };
+    } as google.maps.MapOptions;
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
   }
 
   loadUserPosition() {
     return this.geolocation.getCurrentPosition();
   }
-
-  // loadMarkers() {
-  //   this.destinationMarker = new google.maps.Marker({ map: this.map, position: this.destinationLatLng, animation: google.maps.Animation.DROP });
-  //   this.currLocationMarker = new google.maps.Marker({ map: this.map, position: this.currLatLng, animation: google.maps.Animation.DROP });
-  // }
 
   loadDirections() {
     let directionService = new google.maps.DirectionsService();
@@ -92,6 +105,19 @@ export class RidePage implements OnInit {
         map: this.map,
         directions: result
       });
+    })
+  }
+
+  prefillInputs() {
+    let geocoder = new google.maps.Geocoder();
+    let request: google.maps.GeocoderRequest = {
+      location: this.currLatLng
+    };
+    geocoder.geocode(request, (results, status) => {
+      this.dropoff = this.destination.name;
+      if (status == google.maps.GeocoderStatus.OK) {
+        this.pickup = results[0].address_components[0].short_name + " " + results[0].address_components[1].short_name
+      }
     })
   }
 

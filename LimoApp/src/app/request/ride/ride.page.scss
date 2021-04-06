@@ -4,5 +4,24 @@ $ion-color-medium-tint: #d0d0d3;
     width: 100%;
     height: 90%;
     border: 4px solid $ion-color-medium-tint;
-    margin-top: 18px;
+    margin-top: 8px;
+}
+
+.input {
+    --padding-bottom: 3px;
+    --padding-top: 3px;
+    background-color: rgb(255, 253, 245);
+    color: rgb(48, 48, 48);
+    border-radius: 5px;
+    border: 1px solid rgb(206, 206, 206);
+  }
+
+.card {
+    margin: 5px 0px 0px 0px;
+    padding: 3px;
+    width: 90%;
+}
+
+.label {
+    font-size: 0.65rem;
 }
