@@ -19,16 +19,22 @@
 <ion-content scroll-y="false">
   <ion-row class="ion-justify-content-center">
     <ion-card class="request-card">
-      <ion-card-header>
-        <ion-card-subtitle>Where to?</ion-card-subtitle>
-        <ion-input [(ngModel)]="filter" class="input">
-          <ion-icon class="request-icon" name="search-outline"></ion-icon>
+      <ion-card-header class="ion-no-padding">
+        <ion-input clearInput [(ngModel)]="pickup" class="input" placeholder="Pickup" (ionFocus)="pickupFocus()" (ionInput)="pickupChange()" (ionBlur)="pickupBlur()" [readonly]="loading">
+          <ion-icon class="request-icon" name="ellipse-outline"></ion-icon>
+        </ion-input>
+        <ion-input clearInput [(ngModel)]="dropoff" class="input" placeholder="Dropoff" (ionFocus)="dropoffFocus()" (ionInput)="dropoffChange()" (ionBlur)="dropoffBlur()" [readonly]="loading">
+          <ion-icon class="request-icon" name="square-outline"></ion-icon>
         </ion-input>
       </ion-card-header>
       <ion-item lines="none" class="list" (click)="itemClick(loc)" [ngClass]="{'highlight' : selectedLocation === loc}" *ngFor="let loc of filteredLocations">
         <ion-label>{{ loc.name }}</ion-label>
       </ion-item>
     </ion-card>
+  </ion-row>
+  <ion-row class="height-100 ion-align-items-end">
+    <div #map id="map">
+    </div>
   </ion-row>
 </ion-content>
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '../../interfaces/location';
-import { AlertController, IonRouterOutlet, MenuController, NavController, Platform } from '@ionic/angular';
+import { IonRouterOutlet, MenuController, NavController, Platform } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 @Component({
   selector: 'app-ride',
@@ -12,7 +12,7 @@ export class RidePage implements OnInit {
 
   eta: number = 8;
   destination: Location;
-  destinationLatLng: google.maps.LatLng; w
+  destinationLatLng: google.maps.LatLng;
   currLatLng: google.maps.LatLng;
   directions: google.maps.DirectionsResult;
 
@@ -82,6 +82,8 @@ export class RidePage implements OnInit {
     let mapOptions: google.maps.MapOptions = {
       center: this.destinationLatLng,
       zoom: 16,
+      // this mapId corresponds to custom styling of the map.
+      // refer to: https://developers.google.com/maps/documentation/javascript/styling
       mapId: "aaba5aeca8b4e8c4",
       disableDefaultUI: true
     } as google.maps.MapOptions;
@@ -116,7 +118,7 @@ export class RidePage implements OnInit {
     geocoder.geocode(request, (results, status) => {
       this.dropoff = this.destination.name;
       if (status == google.maps.GeocoderStatus.OK) {
-        this.pickup = results[0].address_components[0].short_name + " " + results[0].address_components[1].short_name
+        this.pickup = results[0].address_components[0].short_name + " " + results[0].address_components[1].short_name;
       }
     })
   }
