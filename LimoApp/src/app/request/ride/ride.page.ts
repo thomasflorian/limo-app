@@ -48,14 +48,19 @@ export class RidePage implements OnInit {
 
   // Loads the google map api
   loadMap() {
+    let center = [(this.pickupLoc.gps[0] + this.dropoffLoc.gps[0])/2, (this.pickupLoc.gps[1] + this.dropoffLoc.gps[1])/2]
     // Set map options
     let mapOptions: google.maps.MapOptions = {
-      center: new google.maps.LatLng(43.03975745924356, -87.9308424643562),
-      zoom: 14,
+      center: new google.maps.LatLng(center[0], center[1]),
+      zoom: 16,
       // this mapId corresponds to custom styling of the map.
       // refer to: https://developers.google.com/maps/documentation/javascript/styling
       mapId: "aaba5aeca8b4e8c4",
-      disableDefaultUI: true
+      disableDefaultUI: true,
+      restriction: {
+        latLngBounds: { north: 43.046, south: 43.031, west: -87.944, east: -87.916 },
+        strictBounds: false
+      }
     } as google.maps.MapOptions;
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
   }

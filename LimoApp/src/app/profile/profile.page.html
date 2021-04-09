@@ -16,5 +16,43 @@
 </ion-header>
 
 <ion-content>
-  Get user name and optional picture? here
+  <ion-row class="ion-justify-content-center">
+    <ion-card class="request-card" style="width: 90%;">
+      <ion-card-header class="ion-no-padding">
+        <ion-text class="ion-text-center">
+          <h1>My Profile</h1>
+        </ion-text>
+      </ion-card-header>
+      <ion-item>
+        <ion-label>
+          Name:
+        </ion-label>
+        <ion-input type="text">
+
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          Phone:
+        </ion-label>
+        <ion-input type="tel">
+          
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          Enable sms alerts?
+        </ion-label>
+        <ion-checkbox>
+
+        </ion-checkbox>
+      </ion-item>
+    </ion-card>
+  </ion-row>
 </ion-content>
+
+<ion-footer class="ion-no-border ion-padding-bottom ion-margin-bottom ">
+  <ion-row class="ion-justify-content-center">
+    <ion-button size="large">SAVE</ion-button>
+  </ion-row>
+</ion-footer>
