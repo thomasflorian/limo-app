@@ -20,10 +20,10 @@
   <ion-row class="ion-justify-content-center">
     <ion-card class="request-card">
       <ion-card-header class="ion-no-padding">
-        <ion-input clearInput [(ngModel)]="pickup" class="input" placeholder="Pickup" (ionFocus)="pickupFocus()" (ionInput)="pickupChange()" (ionBlur)="pickupBlur()" [readonly]="loading">
+        <ion-input clearInput [(ngModel)]="pickup" class="input" placeholder="Pickup" (ionFocus)="pickupFocus()" (ionInput)="pickupInput()" (ionChange)="pickupChange()"  [disabled]="loading">
           <ion-icon class="request-icon" name="ellipse-outline"></ion-icon>
         </ion-input>
-        <ion-input clearInput [(ngModel)]="dropoff" class="input" placeholder="Dropoff" (ionFocus)="dropoffFocus()" (ionInput)="dropoffChange()" (ionBlur)="dropoffBlur()" [readonly]="loading">
+        <ion-input clearInput [(ngModel)]="dropoff" class="input" placeholder="Dropoff" (ionFocus)="dropoffFocus()" (ionInput)="dropoffInput()" (ionChange)="dropoffChange()" [disabled]="loading">
           <ion-icon class="request-icon" name="square-outline"></ion-icon>
         </ion-input>
       </ion-card-header>
@@ -40,6 +40,6 @@
 
 <ion-footer class="ion-no-border ion-padding-bottom ion-margin-bottom ">
   <ion-row class="ion-justify-content-center">
-    <ion-button [disabled]="disabled" size="large" (click)="request()">REQUEST LIMO</ion-button>
+    <ion-button [disabled]="!ready" size="large" (click)="request()">REQUEST LIMO</ion-button>
   </ion-row>
 </ion-footer>
