@@ -4,6 +4,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IonRouterOutlet, MenuController, NavController, Platform } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { ThrowStmt } from '@angular/compiler';
 @Component({
   selector: 'app-request',
   templateUrl: './request.page.html',
@@ -14,12 +15,12 @@ export class RequestPage implements OnInit {
   @ViewChild('map', { static: false }) mapElement: ElementRef;
   @ViewChild('pickupID') pickupInput;
   map: google.maps.Map;
-  
+
   locations: Location[];
   filteredLocations: Location[];
 
   currentLatLng: google.maps.LatLng;
-  
+
   _pickup: string = "";
   pickupLoc: Location;
   _dropoff: string = "";
@@ -28,26 +29,26 @@ export class RequestPage implements OnInit {
   dropoffHasFocus: boolean;
   loading: boolean = true;
 
-  get pickup(){
+  get pickup() {
     return this._pickup;
   }
 
-  set pickup(val){
+  set pickup(val) {
     this._pickup = val;
     this.getFilteredLocations(this._pickup);
   }
 
-  get dropoff(){
+  get dropoff() {
     return this._dropoff;
   }
 
-  set dropoff(val){
+  set dropoff(val) {
     this._dropoff = val;
     this.getFilteredLocations(this._dropoff);
   }
 
   constructor(private geolocation: Geolocation, private plt: Platform, private router: Router, private route: ActivatedRoute, private routerOutlet: IonRouterOutlet, private menu: MenuController, private locationsService: LocationsService) { }
-  
+
   // Runs when menu bar icon is clicked.
   openMenu() {
     this.menu.enable(true, 'limomenu');
@@ -71,11 +72,11 @@ export class RequestPage implements OnInit {
   loadGeolocation() {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.currentLatLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
-      let closestLocation = {index: 0, distance: Number.MAX_VALUE};
-      for (let i = 0; i < this.locations.length; i++){
+      let closestLocation = { index: 0, distance: Number.MAX_VALUE };
+      for (let i = 0; i < this.locations.length; i++) {
         let distance = this.getDistance([this.currentLatLng.lat(), this.currentLatLng.lng()], this.locations[i].gps);
-        if (closestLocation.distance > distance){
-          closestLocation = {index: i, distance: distance};
+        if (closestLocation.distance > distance) {
+          closestLocation = { index: i, distance: distance };
         }
       }
       this._pickup = this.locations[closestLocation.index].name;
@@ -83,11 +84,11 @@ export class RequestPage implements OnInit {
     }).finally(() => this.loading = false);
   }
 
-  getDistance(loc1: number[], loc2: number[]){
+  getDistance(loc1: number[], loc2: number[]) {
     if (loc1.length !== 2 || loc2.length !== 2) {
       throw new Error('getDistance invoked improperly. loc1 and loc2 should have a length of 2.');
     }
-    return Math.sqrt(Math.pow(loc1[0]-loc2[0],2)+Math.pow(loc1[1]-loc2[1],2));
+    return Math.sqrt(Math.pow(loc1[0] - loc2[0], 2) + Math.pow(loc1[1] - loc2[1], 2));
   }
 
   // Loads the google map api
@@ -103,40 +104,42 @@ export class RequestPage implements OnInit {
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
   }
 
-  request(){
-
+  request() {
+    if (this.pickupLoc != null && this.dropoffLoc != null) {
+      this.router.navigate(["ride"], { relativeTo: this.route, state: { pickup: this.pickupLoc, dropoff: this.dropoffLoc } });
+    }
   }
 
-  pickupFocus(){
-    this.loadMap();
+  pickupFocus() {
     this.pickupHasFocus = true;
     this.dropoffHasFocus = false;
-    this.getFilteredLocations(this.pickup);
+    if (!this.pickupLoc) {
+      this.getFilteredLocations(this.pickup);
+    }
   }
 
-  pickupBlur(){
-    // this.filteredLocations = [];
+  pickupBlur() {
   }
 
-  pickupChange(){
+  pickupChange() {
     this.getFilteredLocations(this._pickup);
     this.pickupLoc = null;
   }
 
-  dropoffFocus(){
+  dropoffFocus() {
     this.dropoffHasFocus = true;
     this.pickupHasFocus = false;
-    this.getFilteredLocations(this.dropoff);
+    if (!this.dropoffLoc) {
+      this.getFilteredLocations(this.dropoff);
+    }
   }
 
-  dropoffBlur(){
-    // this.filteredLocations = [];
+  dropoffBlur() {
   }
 
-  dropoffChange(){
+  dropoffChange() {
     this.getFilteredLocations(this._dropoff);
     this.dropoffLoc = null;
-    this.loadMap();
   }
 
   itemClick(loc: Location) {
@@ -149,23 +152,27 @@ export class RequestPage implements OnInit {
       this.dropoffLoc = loc;
     }
     this.filteredLocations = [];
-
+    // if both locations are selected, load the route on the map
     if (this.pickupLoc != null && this.dropoffLoc != null) {
-      this.loadMap();
-      let directionService = new google.maps.DirectionsService();
-      let request: google.maps.DirectionsRequest = {
-        origin: new google.maps.LatLng(this.pickupLoc.gps[0], this.pickupLoc.gps[1]),
-        destination: new google.maps.LatLng(this.dropoffLoc.gps[0], this.dropoffLoc.gps[1]),
-        travelMode: google.maps.TravelMode.DRIVING,
-        provideRouteAlternatives: false
-      }
-      directionService.route(request, (result, status) => {
-        new google.maps.DirectionsRenderer({
-          map: this.map,
-          directions: result
-        });
-      })
+      this.loadRoute();
     }
+  }
+
+  loadRoute() {
+    this.loadMap();
+    let directionService = new google.maps.DirectionsService();
+    let request: google.maps.DirectionsRequest = {
+      origin: new google.maps.LatLng(this.pickupLoc.gps[0], this.pickupLoc.gps[1]),
+      destination: new google.maps.LatLng(this.dropoffLoc.gps[0], this.dropoffLoc.gps[1]),
+      travelMode: google.maps.TravelMode.DRIVING,
+      provideRouteAlternatives: false
+    }
+    directionService.route(request, (result, status) => {
+      new google.maps.DirectionsRenderer({
+        map: this.map,
+        directions: result
+      });
+    })
   }
 
   // Gets filtered locations from search bar input.
