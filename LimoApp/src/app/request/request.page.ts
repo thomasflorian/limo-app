@@ -12,43 +12,41 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 export class RequestPage implements OnInit {
 
   @ViewChild('map', { static: false }) mapElement: ElementRef;
-  @ViewChild('pickupID') pickupInput;
   map: google.maps.Map;
-  
+
   locations: Location[];
   filteredLocations: Location[];
-
   currentLatLng: google.maps.LatLng;
-  
   _pickup: string = "";
   pickupLoc: Location;
   _dropoff: string = "";
   dropoffLoc: Location;
   pickupHasFocus: boolean;
   dropoffHasFocus: boolean;
-  loading: boolean = true;
+  loading: boolean = true; // Disables input until geolocation is loaded ... change this functionality in future.
+  ready: boolean = false; // Disables request button until locations are selected.
   distanceThreshold: number = 0.001;  //Maximum distance allowed to be concidered "at this location" (in degrees lat/lng)
 
-  get pickup(){
+  get pickup() {
     return this._pickup;
   }
 
-  set pickup(val){
+  set pickup(val) {
     this._pickup = val;
     this.getFilteredLocations(this._pickup);
   }
 
-  get dropoff(){
+  get dropoff() {
     return this._dropoff;
   }
 
-  set dropoff(val){
+  set dropoff(val) {
     this._dropoff = val;
     this.getFilteredLocations(this._dropoff);
   }
 
   constructor(private geolocation: Geolocation, private plt: Platform, private router: Router, private route: ActivatedRoute, private routerOutlet: IonRouterOutlet, private menu: MenuController, private locationsService: LocationsService) { }
-  
+
   // Runs when menu bar icon is clicked.
   openMenu() {
     this.menu.enable(true, 'limomenu');
@@ -73,11 +71,11 @@ export class RequestPage implements OnInit {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.currentLatLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
       //Finds closest on-campus location
-      let closestLocation = {index: 0, distance: Number.MAX_VALUE};
-      for (let i = 0; i < this.locations.length; i++){
+      let closestLocation = { index: 0, distance: Number.MAX_VALUE };
+      for (let i = 0; i < this.locations.length; i++) {
         let distance = this.getDistance([this.currentLatLng.lat(), this.currentLatLng.lng()], this.locations[i].gps);
-        if (closestLocation.distance > distance){
-          closestLocation = {index: i, distance: distance};
+        if (closestLocation.distance > distance) {
+          closestLocation = { index: i, distance: distance };
         }
       }
       if (closestLocation.distance <= this.distanceThreshold) {
@@ -91,11 +89,11 @@ export class RequestPage implements OnInit {
     }).finally(() => this.loading = false);
   }
 
-  getDistance(loc1: number[], loc2: number[]){
+  getDistance(loc1: number[], loc2: number[]) {
     if (loc1.length !== 2 || loc2.length !== 2) {
       throw new Error('getDistance invoked improperly. loc1 and loc2 should have a length of 2.');
     }
-    return Math.sqrt(Math.pow(loc1[0]-loc2[0],2)+Math.pow(loc1[1]-loc2[1],2));
+    return Math.sqrt(Math.pow(loc1[0] - loc2[0], 2) + Math.pow(loc1[1] - loc2[1], 2));
   }
 
   reverseGeocodePickup(latLng: google.maps.LatLng) {
@@ -105,7 +103,7 @@ export class RequestPage implements OnInit {
     };
     geocoder.geocode(request, (results, status) => {
       if (status == google.maps.GeocoderStatus.OK) {
-        this.pickupLoc = {name : (results[0].address_components[0].short_name + " " + results[0].address_components[1].short_name), address : results[0].formatted_address, gps : [latLng.lat(), latLng.lng()]};
+        this.pickupLoc = { name: (results[0].address_components[0].short_name + " " + results[0].address_components[1].short_name), address: results[0].formatted_address, gps: [latLng.lat(), latLng.lng()] };
         this._pickup = this.pickupLoc.name;
       }
     })
@@ -122,47 +120,61 @@ export class RequestPage implements OnInit {
       disableDefaultUI: true,
       //The map will stay within these boundaries (includes off-campus locations)
       restriction: {
-        latLngBounds: { north: 43.046, south: 43.031, west: -87.944, east: -87.916},
+        latLngBounds: { north: 43.046, south: 43.031, west: -87.944, east: -87.916 },
         strictBounds: false
       }
     } as google.maps.MapOptions;
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
   }
 
-  request(){
-
+  request() {
+    if (this.pickupLoc != null && this.dropoffLoc != null) {
+      this.router.navigate(["ride"], { relativeTo: this.route, state: { pickup: this.pickupLoc, dropoff: this.dropoffLoc } });
+    }
   }
 
-  pickupFocus(){
-    this.loadMap();
+  pickupFocus() {
     this.pickupHasFocus = true;
     this.dropoffHasFocus = false;
-    this.getFilteredLocations(this.pickup);
+    if (!this.pickupLoc) {
+      this.getFilteredLocations(this.pickup);
+    }
   }
 
-  pickupBlur(){
-    // this.filteredLocations = [];
-  }
-
-  pickupChange(){
+  pickupInput() {
     this.getFilteredLocations(this._pickup);
     this.pickupLoc = null;
+    this.ready = false;
   }
 
-  dropoffFocus(){
+  pickupChange() {
+    if (this._pickup == "") {
+      // Detects if the clear input button is clicked. This extra check is needed since the clear button is not considered a keyboard input so pickupInput() is not triggered.
+      this.pickupLoc = null;
+      this.ready = false;
+    }
+  }
+
+  dropoffFocus() {
     this.dropoffHasFocus = true;
     this.pickupHasFocus = false;
-    this.getFilteredLocations(this.dropoff);
+    if (!this.dropoffLoc) {
+      this.getFilteredLocations(this.dropoff);
+    }
   }
 
-  dropoffBlur(){
-    // this.filteredLocations = [];
-  }
-
-  dropoffChange(){
+  dropoffInput() {
     this.getFilteredLocations(this._dropoff);
     this.dropoffLoc = null;
-    this.loadMap();
+    this.ready = false;
+  }
+
+  dropoffChange() {
+    if (this._dropoff == "") {
+      // Detects if the clear input button is clicked. This extra check is needed since the clear button is not considered a keyboard input so dropoffInput() is not triggered.
+      this.dropoffLoc = null;
+      this.ready = false;
+    }
   }
 
   itemClick(loc: Location) {
@@ -175,23 +187,28 @@ export class RequestPage implements OnInit {
       this.dropoffLoc = loc;
     }
     this.filteredLocations = [];
-
+    // if both locations are selected, load the route on the map
     if (this.pickupLoc != null && this.dropoffLoc != null) {
-      this.loadMap();
-      let directionService = new google.maps.DirectionsService();
-      let request: google.maps.DirectionsRequest = {
-        origin: new google.maps.LatLng(this.pickupLoc.gps[0], this.pickupLoc.gps[1]),
-        destination: new google.maps.LatLng(this.dropoffLoc.gps[0], this.dropoffLoc.gps[1]),
-        travelMode: google.maps.TravelMode.DRIVING,
-        provideRouteAlternatives: false
-      }
-      directionService.route(request, (result, status) => {
-        new google.maps.DirectionsRenderer({
-          map: this.map,
-          directions: result
-        });
-      })
+      this.ready = true;
+      this.loadRoute();
     }
+  }
+
+  loadRoute() {
+    this.loadMap();
+    let directionService = new google.maps.DirectionsService();
+    let request: google.maps.DirectionsRequest = {
+      origin: new google.maps.LatLng(this.pickupLoc.gps[0], this.pickupLoc.gps[1]),
+      destination: new google.maps.LatLng(this.dropoffLoc.gps[0], this.dropoffLoc.gps[1]),
+      travelMode: google.maps.TravelMode.DRIVING,
+      provideRouteAlternatives: false
+    }
+    directionService.route(request, (result, status) => {
+      new google.maps.DirectionsRenderer({
+        map: this.map,
+        directions: result
+      });
+    })
   }
 
   // Gets filtered locations from search bar input.
