@@ -16,5 +16,18 @@
 </ion-header>
 
 <ion-content>
-  Get user name and optional picture? here
+  <ion-row class="ion-justify-content-center">
+    <ion-card class="img-frame">
+      <ion-card-content>
+        <img src="/assets/map.png" alt="Profile image">
+      </ion-card-content>
+    </ion-card>
+  </ion-row>
+  <ion-input [(ngModel)]="firstName" class="input" placeholder="First Name" autocapitalize="true">
+  </ion-input>
+  <ion-input [(ngModel)]="lastName" class="input" placeholder="Last Name" autocapitalize="true">
+  </ion-input>
+  <ion-row class="ion-justify-content-center ion-padding-top">
+    <ion-button [disabled]="disabled" size="large" (click)="save()">Save Changes</ion-button>
+  </ion-row>
 </ion-content>

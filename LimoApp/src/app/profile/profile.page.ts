@@ -8,6 +8,25 @@ import { MenuController, IonRouterOutlet } from '@ionic/angular';
 })
 export class ProfilePage implements OnInit {
 
+  _firstName: string = "";
+  _lastName: string = "";
+
+/*  get firstName() {
+    return this._firstName;
+  }
+
+  set firstName() {
+    this._firstName = val;
+  }
+
+  get lastName() {
+    return this.lastName;
+  }
+
+  set lastName() {
+    this._lastName = val;
+  }
+*/
   constructor(private menu: MenuController, private routerOutlet: IonRouterOutlet) { }
 
   // Runs when menu bar icon is clicked.
@@ -20,5 +39,9 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
     // Disables ability to swipe back to previous page.
     this.routerOutlet.swipeGesture = false;
+  }
+
+  save() {
+    //add shit later
   }
 }
