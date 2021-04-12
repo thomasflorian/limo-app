@@ -27,19 +27,19 @@
         <ion-label>
           Name:
         </ion-label>
-        <ion-input type="text" [(ngModel)]="name" placeholder="First Last" autocapitalize="true" (ionChange)="inputChange()"></ion-input>
+        <ion-input type="text" [(ngModel)]="name" placeholder="Name" autocapitalize="true"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>
           Phone:
         </ion-label>
-        <ion-input type="tel" [(ngModel)]="telNum" placeholder="(xxx) xxx-xxxx" (ionChange)="inputChange()"></ion-input>
+        <ion-input type="tel" [(ngModel)]="tel" placeholder="Phone Number"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>
           Enable sms alerts?
         </ion-label>
-        <ion-checkbox></ion-checkbox>
+        <ion-checkbox [(ngModel)]="alerts"></ion-checkbox>
       </ion-item>
     </ion-card>
   </ion-row>
