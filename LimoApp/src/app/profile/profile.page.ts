@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController, IonRouterOutlet } from '@ionic/angular';
 import { File } from '@ionic-native/file';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -14,7 +15,7 @@ export class ProfilePage implements OnInit {
   _nameOld: string = "";    //Keeps track of existing user info to prevent re-writing the same info
   _telNumOld: string = "";
   disabled: boolean = true;
-  profileExists: boolean = false;  //CHANGE THIS TO FALSE BEFORE RELEASE (prevents users from exiting this screen if they have not made a profile before)
+  profileExists: boolean = true;  //CHANGE THIS TO FALSE BEFORE RELEASE (prevents users from exiting this screen if they have not made a profile before)
 
   get name() {
     return this._name;
@@ -32,7 +33,7 @@ export class ProfilePage implements OnInit {
     this._telNum = val;
   }
 
-  constructor(private menu: MenuController, private routerOutlet: IonRouterOutlet) { }
+  constructor(private router: Router, private route: ActivatedRoute, private menu: MenuController, private routerOutlet: IonRouterOutlet) { }
 
   // Runs when menu bar icon is clicked.
   openMenu() {
@@ -49,13 +50,14 @@ export class ProfilePage implements OnInit {
 
   //Checks whether a profile exists
   verifyProfile() {
-    File.checkFile(File.cacheDirectory, "ProfileInfo.txt")
+
     //For some reason, the "then" functions for the File functions make the emulator bug out.
     //I think it is because the emulator cannot read/write files like the phone does.
     //Comment this section out whenever you work on this page:
     //(And while you're at it, change profileExists to true so that you can actually navigate)
     //---------------------------------------------------------------------------------------------------------------
-    .then((val: boolean) => {
+    
+    File.checkFile(File.cacheDirectory, "ProfileInfo.txt").then((val: boolean) => {
       //Will read the file if it exists
       if(val) {
         this.getProfileInfo();
@@ -85,6 +87,8 @@ export class ProfilePage implements OnInit {
       }
     }, (reason) => {
       throw new Error("Error retrieving profile information: " + reason);
+    }).catch((reason) => {
+      throw new Error("Error retrieving profile information: " + reason);
     });
   }
 
@@ -110,7 +114,7 @@ export class ProfilePage implements OnInit {
       this._telNumOld = this._telNum;
       if(!this.profileExists) {
         this.profileExists = true;
-        //Route to request page (idk how to do this)
+        this.router.navigate(["request"], {relativeTo: this.route.parent})
       }
     }, (reason) => {
       throw new Error('Error saving profile information: ' + reason);
