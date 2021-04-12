@@ -14,7 +14,7 @@ export class ProfilePage implements OnInit {
   _nameOld: string = "";    //Keeps track of existing user info to prevent re-writing the same info
   _telNumOld: string = "";
   disabled: boolean = true;
-  profileExists: boolean = true;  //CHANGE THIS TO FALSE BEFORE RELEASE (prevents users from exiting this screen if they have not made a profile before)
+  profileExists: boolean = false;  //CHANGE THIS TO FALSE BEFORE RELEASE (prevents users from exiting this screen if they have not made a profile before)
 
   get name() {
     return this._name;
@@ -50,11 +50,12 @@ export class ProfilePage implements OnInit {
   //Checks whether a profile exists
   verifyProfile() {
     File.checkFile(File.cacheDirectory, "ProfileInfo.txt")
-    //For some reason, the "then" functions make the GUI for this page bug out. Even if there is nothing inside the "then" function, it still freaks out.
-    //I think it's just an emulator thing, because the GUI goes back to normal if you mess with it enough
-    //John and I will have to build the app to our phones and see if it's any better then
-    //-----------------------------------------------------------------------------------------------------
-    /*.then((val: boolean) => {
+    //For some reason, the "then" functions for the File functions make the emulator bug out.
+    //I think it is because the emulator cannot read/write files like the phone does.
+    //Comment this section out whenever you work on this page:
+    //(And while you're at it, change profileExists to true so that you can actually navigate)
+    //---------------------------------------------------------------------------------------------------------------
+    .then((val: boolean) => {
       //Will read the file if it exists
       if(val) {
         this.getProfileInfo();
@@ -66,8 +67,8 @@ export class ProfilePage implements OnInit {
     }, (reason) => {
       throw new Error("Error locating profile information: " + reason);
     })
-    //-----------------------------------------------------------------------------------------------------
-    */;
+    //---------------------------------------------------------------------------------------------------------------
+    ;
   }
 
   getProfileInfo() {
