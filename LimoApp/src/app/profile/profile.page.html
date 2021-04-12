@@ -17,7 +17,7 @@
 
 <ion-content>
   <ion-row class="ion-justify-content-center">
-    <ion-card button="true" (click)="changeImg()" class="img-frame" color="light">
+    <ion-card button (click)="changeImg()" class="img-frame">
       <ion-card-content>
         <ion-img src="/assets/profile.png" alt="Profile image"></ion-img>
       </ion-card-content>
@@ -27,13 +27,13 @@
         <ion-label>
           Name:
         </ion-label>
-        <ion-input type="text" [(ngModel)]="name" placeholder="Name" autocapitalize="true"></ion-input>
+        <ion-input type="text" [(ngModel)]="name" autocapitalize="true"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>
           Phone:
         </ion-label>
-        <ion-input type="tel" [(ngModel)]="tel" placeholder="Phone Number"></ion-input>
+        <ion-input type="tel" [(ngModel)]="tel" ></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>

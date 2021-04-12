@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController, IonRouterOutlet, Platform } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
 @Component({
   selector: 'app-profile',
@@ -27,12 +28,14 @@ export class ProfilePage implements OnInit {
     // Disables ability to swipe back to previous page.
     this.routerOutlet.swipeGesture = false;
     await this.storage.create();
+    // Retrieves name, tel, and alerts values.
     this.name = await this.storage.get('name');
     this.tel = await this.storage.get('tel');
     this.alerts = await this.storage.get('alerts')
   }
 
   async save() {
+    // Stores name, tel, and alerts values.
     await this.storage.set('name', this.name);
     await this.storage.set('tel', this.tel);
     await this.storage.set('alerts', this.alerts);
