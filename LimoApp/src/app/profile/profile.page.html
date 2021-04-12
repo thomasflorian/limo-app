@@ -3,12 +3,12 @@
     <ion-title class="ion-no-padding ion-text-start">
       <ion-row class="ion-align-items-center">
         <ion-col size="4">
-          <ion-button fill="clear" (click)="openMenu()">
+          <ion-button [disabled]="!profileExists" fill="clear" (click)="openMenu()">
             <ion-icon size="large" color="light" class="icon" name="menu-outline"></ion-icon>
           </ion-button>
         </ion-col>
         <ion-col size="4" class="ion-text-center">
-          Profile
+          My Profile
         </ion-col>
       </ion-row>
     </ion-title>
@@ -17,35 +17,29 @@
 
 <ion-content>
   <ion-row class="ion-justify-content-center">
+    <ion-card button="true" (click)="changeImg()" class="img-frame" color="light">
+      <ion-card-content>
+        <ion-img src="/assets/map.png" alt="Profile image"></ion-img>
+      </ion-card-content>
+    </ion-card>
     <ion-card class="request-card" style="width: 90%;">
-      <ion-card-header class="ion-no-padding">
-        <ion-text class="ion-text-center">
-          <h1>Marquette Limo</h1>
-        </ion-text>
-      </ion-card-header>
       <ion-item>
         <ion-label>
           Name:
         </ion-label>
-        <ion-input type="text">
-
-        </ion-input>
+        <ion-input type="text" [(ngModel)]="name" placeholder="First Last" autocapitalize="true" (ionChange)="inputChange()"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>
           Phone:
         </ion-label>
-        <ion-input type="tel">
-          
-        </ion-input>
+        <ion-input type="tel" [(ngModel)]="telNum" placeholder="(xxx) xxx-xxxx" (ionChange)="inputChange()"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>
           Enable sms alerts?
         </ion-label>
-        <ion-checkbox>
-
-        </ion-checkbox>
+        <ion-checkbox></ion-checkbox>
       </ion-item>
     </ion-card>
   </ion-row>
@@ -53,6 +47,6 @@
 
 <ion-footer class="ion-no-border ion-padding-bottom ion-margin-bottom ">
   <ion-row class="ion-justify-content-center">
-    <ion-button size="large">SAVE</ion-button>
+    <ion-button [disabled]="disabled" size="large" (click)="save()">SAVE CHANGES</ion-button>
   </ion-row>
 </ion-footer>
