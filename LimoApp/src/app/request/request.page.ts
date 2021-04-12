@@ -28,13 +28,15 @@ export class RequestPage implements OnInit {
   ready: boolean = false; // Disables request button until locations are selected.
   distanceThreshold: number = 0.001;  //Maximum distance allowed to be concidered "at this location" (in degrees lat/lng)
 
+
+  // Getters and setters for pickup and dropoff fields.
   get pickup() {
     return this._pickup;
   }
 
   set pickup(val) {
     this._pickup = val;
-    this.getFilteredLocations(this._pickup);
+    this.getFilteredLocations(this._pickup); // updates filtered locations when pickup changes
   }
 
   get dropoff() {
@@ -43,7 +45,7 @@ export class RequestPage implements OnInit {
 
   set dropoff(val) {
     this._dropoff = val;
-    this.getFilteredLocations(this._dropoff);
+    this.getFilteredLocations(this._dropoff); // updates filtered locations when dropoff changes
   }
 
   constructor(private geolocation: Geolocation, private plt: Platform, private router: Router, private route: ActivatedRoute, private routerOutlet: IonRouterOutlet, private menu: MenuController, private locationsService: LocationsService) { }
@@ -68,6 +70,7 @@ export class RequestPage implements OnInit {
     });
   }
 
+  // Load in the current position of user
   loadGeolocation() {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.currentLatLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
@@ -87,9 +90,10 @@ export class RequestPage implements OnInit {
       else {
         this.reverseGeocodePickup(this.currentLatLng);
       }
-    }).finally(() => this.loading = false);
+    }).finally(() => this.loading = false); // enables input fields after geolocation api is loaded.
   }
 
+  // get distance between locations
   getDistance(loc1: number[], loc2: number[]) {
     if (loc1.length !== 2 || loc2.length !== 2) {
       throw new Error('getDistance invoked improperly. loc1 and loc2 should have a length of 2.');
@@ -97,6 +101,7 @@ export class RequestPage implements OnInit {
     return Math.sqrt(Math.pow(loc1[0] - loc2[0], 2) + Math.pow(loc1[1] - loc2[1], 2));
   }
 
+  // reverse geocoding
   reverseGeocodePickup(latLng: google.maps.LatLng) {
     let geocoder = new google.maps.Geocoder();
     let request: google.maps.GeocoderRequest = {

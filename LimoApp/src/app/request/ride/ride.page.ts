@@ -65,6 +65,7 @@ export class RidePage implements OnInit {
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
   }
 
+  // Loads the route from pickup to dropoff location on the map
   loadRoute() {
     this.loadMap();
     let directionService = new google.maps.DirectionsService();
