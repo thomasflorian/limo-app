@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController, IonRouterOutlet, Platform } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
-import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
 @Component({
   selector: 'app-profile',
@@ -41,5 +40,4 @@ export class ProfilePage implements OnInit {
     await this.storage.set('alerts', this.alerts);
     this.router.navigate(["request"], {relativeTo: this.route.parent})
   }
-
 }

@@ -105,7 +105,7 @@ export class RequestPage implements OnInit {
     geocoder.geocode(request, (results, status) => {
       if (status == google.maps.GeocoderStatus.OK) {
         this.pickupLoc = { name: (results[0].address_components[0].short_name + " " + results[0].address_components[1].short_name), address: results[0].formatted_address, gps: [latLng.lat(), latLng.lng()] };
-        this._pickup = this.pickupLoc.name;
+        this.pickup = this.pickupLoc.name;
       }
     })
   }
@@ -143,13 +143,12 @@ export class RequestPage implements OnInit {
   }
 
   pickupInput() {
-    this.getFilteredLocations(this._pickup);
     this.pickupLoc = null;
     this.ready = false;
   }
 
   pickupChange() {
-    if (this._pickup == "") {
+    if (this.pickup == "") {
       // Detects if the clear input button is clicked. This extra check is needed since the clear button is not considered a keyboard input so pickupInput() is not triggered.
       this.pickupLoc = null;
       this.ready = false;
@@ -165,13 +164,12 @@ export class RequestPage implements OnInit {
   }
 
   dropoffInput() {
-    this.getFilteredLocations(this._dropoff);
     this.dropoffLoc = null;
     this.ready = false;
   }
 
   dropoffChange() {
-    if (this._dropoff == "") {
+    if (this.dropoff == "") {
       // Detects if the clear input button is clicked. This extra check is needed since the clear button is not considered a keyboard input so dropoffInput() is not triggered.
       this.dropoffLoc = null;
       this.ready = false;

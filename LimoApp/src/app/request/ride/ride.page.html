@@ -11,7 +11,18 @@
 </ion-header>
 
 <ion-content scroll-y="false">
-  <div #map id="map"></div>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center" style="height: 0; z-index: 1;">
+      <ion-card style="padding: 5px;">
+        <ion-text>
+          <h1>ETA: {{ eta }} minutes</h1>
+        </ion-text>
+      </ion-card>
+    </ion-row>
+    <ion-row style="height: 100%; margin-top: 25px;">
+      <div #map id="map"></div>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 
 <ion-footer class="ion-no-border ion-padding-bottom ion-margin-bottom ">
