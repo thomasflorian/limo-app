@@ -17,21 +17,25 @@
 
 <!-- Scroll-y="false" disables vertical scrolling  -->
 <ion-content scroll-y="false">
-  <ion-row class="ion-justify-content-center">
-    <ion-card class="request-card">
-      <ion-card-header class="ion-no-padding">
-        <ion-input clearInput [(ngModel)]="pickup" class="input" placeholder="Pickup" (ionFocus)="pickupFocus()" (ionInput)="pickupInput()" (ionChange)="pickupChange()"  [disabled]="loading">
-          <ion-icon class="request-icon" name="ellipse-outline"></ion-icon>
-        </ion-input>
-        <ion-input clearInput [(ngModel)]="dropoff" class="input" placeholder="Dropoff" (ionFocus)="dropoffFocus()" (ionInput)="dropoffInput()" (ionChange)="dropoffChange()" [disabled]="loading">
-          <ion-icon class="request-icon" name="square-outline"></ion-icon>
-        </ion-input>
-      </ion-card-header>
-      <ion-item lines="none" class="list" (click)="itemClick(loc)" [ngClass]="{'highlight' : selectedLocation === loc}" *ngFor="let loc of filteredLocations">
-        <ion-label>{{ loc.name }}</ion-label>
-      </ion-item>
-    </ion-card>
-  </ion-row>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-card class="request-card">
+        <ion-card-header class="ion-no-padding">
+          <ion-input clearInput [(ngModel)]="pickup" class="input" placeholder="Pickup" (ionFocus)="pickupFocus()"
+            (ionInput)="pickupInput()" (ionChange)="pickupChange()" [disabled]="loading">
+            <ion-icon class="request-icon" name="ellipse-outline"></ion-icon>
+          </ion-input>
+          <ion-input clearInput [(ngModel)]="dropoff" class="input" placeholder="Dropoff" (ionFocus)="dropoffFocus()"
+            (ionInput)="dropoffInput()" (ionChange)="dropoffChange()" [disabled]="loading">
+            <ion-icon class="request-icon" name="square-outline"></ion-icon>
+          </ion-input>
+        </ion-card-header>
+        <ion-item lines="none" class="list" (click)="itemClick(loc)" *ngFor="let loc of filteredLocations">
+          <ion-label>{{ loc.name }}</ion-label>
+        </ion-item>
+      </ion-card>
+    </ion-row>
+  </ion-grid>
   <ion-row class="height-100 ion-align-items-end">
     <div #map id="map">
     </div>
