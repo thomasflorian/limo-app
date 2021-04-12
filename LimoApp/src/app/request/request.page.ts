@@ -1,9 +1,10 @@
 import { Location } from './../interfaces/location';
 import { LocationsService } from './locations.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IonRouterOutlet, MenuController, NavController, Platform } from '@ionic/angular';
+import { IonRouterOutlet, MenuController, Platform } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+
 @Component({
   selector: 'app-request',
   templateUrl: './request.page.html',
