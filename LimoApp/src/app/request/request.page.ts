@@ -1,5 +1,5 @@
 import { Location } from './../interfaces/location';
-import { LocationsService } from './locations.service';
+import { LocationsService } from './services/locations.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IonRouterOutlet, MenuController, Platform } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -77,7 +77,7 @@ export class RequestPage implements OnInit {
       //Finds closest on-campus location
       let closestLocation = { index: 0, distance: Number.MAX_VALUE };
       for (let i = 0; i < this.locations.length; i++) {
-        let distance = this.getDistance([this.currentLatLng.lat(), this.currentLatLng.lng()], this.locations[i].gps);
+        let distance = this.getDistance([this.currentLatLng.lat(), this.currentLatLng.lng()], [this.locations[i].lat, this.locations[i].lng]);
         if (closestLocation.distance > distance) {
           closestLocation = { index: i, distance: distance };
         }
@@ -109,7 +109,7 @@ export class RequestPage implements OnInit {
     };
     geocoder.geocode(request, (results, status) => {
       if (status == google.maps.GeocoderStatus.OK) {
-        this.pickupLoc = { name: (results[0].address_components[0].short_name + " " + results[0].address_components[1].short_name), address: results[0].formatted_address, gps: [latLng.lat(), latLng.lng()] };
+        this.pickupLoc = { name: (results[0].address_components[0].short_name + " " + results[0].address_components[1].short_name), address: results[0].formatted_address, lat: latLng.lat(), lng: latLng.lng()};
         this.pickup = this.pickupLoc.name;
       }
     })
@@ -202,8 +202,8 @@ export class RequestPage implements OnInit {
     this.loadMap();
     let directionService = new google.maps.DirectionsService();
     let request: google.maps.DirectionsRequest = {
-      origin: new google.maps.LatLng(this.pickupLoc.gps[0], this.pickupLoc.gps[1]),
-      destination: new google.maps.LatLng(this.dropoffLoc.gps[0], this.dropoffLoc.gps[1]),
+      origin: new google.maps.LatLng(this.pickupLoc.lat, this.pickupLoc.lng),
+      destination: new google.maps.LatLng(this.dropoffLoc.lat, this.dropoffLoc.lng),
       travelMode: google.maps.TravelMode.DRIVING,
       provideRouteAlternatives: false
     }

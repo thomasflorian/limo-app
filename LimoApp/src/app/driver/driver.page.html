@@ -15,7 +15,6 @@
   </ion-toolbar>
 </ion-header>
 
-<!-- Scroll-y="false" disables vertical scrolling  -->
 <ion-content scroll-y="false">
   <ion-grid class="margin-top">
     <ion-row>
@@ -23,8 +22,11 @@
         <ion-text color="secondary">
           <h1 class="login-header ion-no-margin">Sign In</h1>
         </ion-text>
-        <ion-text class="ion-text-nowrap" color="danger" [hidden]="!failedLogin" style="font-size: {{ fontsize }}rem;">
-          <p class="fail-text"><ion-icon class="fail-icon" slot="start" name="alert-circle-outline"></ion-icon> Incorrect username or password!</p>
+        <ion-text class="ion-text-nowrap" color="danger" [hidden]="!failedLogin">
+          <p class="fail-text">
+            <ion-icon class="fail-icon" slot="start" name="alert-circle-outline"></ion-icon> Incorrect username or
+            password!
+          </p>
         </ion-text>
       </ion-col>
     </ion-row>
@@ -33,7 +35,7 @@
         <ion-icon class="icon" size="large" color="secondary" name="person-outline"></ion-icon>
       </ion-col>
       <ion-col size="8">
-        <ion-input class="login-input" [(ngModel)]="username" placeholder="Username..."></ion-input>
+        <ion-input class="login-input" [(ngModel)]="email" placeholder="Email..."></ion-input>
       </ion-col>
     </ion-row>
     <ion-row class="ion-justify-content-start ion-align-items-center">
@@ -46,7 +48,7 @@
     </ion-row>
     <ion-row class="ion-justify-content-center">
       <ion-col size="10">
-        <ion-button shape="round" expand="full" size="small" (click)="authenticate()">
+        <ion-button shape="round" expand="full" size="small" (click)="signIn()">
           <ion-text color="light">SIGN IN</ion-text>
           <ion-icon slot="end" color="light" name="chevron-forward-outline"></ion-icon>
         </ion-button>

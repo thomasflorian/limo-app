@@ -1,17 +1,23 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component } from '@angular/core';
-import { MenuController, NavController } from '@ionic/angular';
-
+import { Component, OnInit } from '@angular/core';
+import { MenuController } from '@ionic/angular';
+import { LocationsService } from './request/services/locations.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
-  constructor(private router: Router, private route: ActivatedRoute, private menu: MenuController) {}
+export class AppComponent implements OnInit {
+
+  constructor(private router: Router,
+    private route: ActivatedRoute,
+    private menu: MenuController) { }
+
+  ngOnInit() {
+  }
 
   // Navigates to location clicked in menu bar.
-  navTo(loc : string){
+  navTo(loc: string) {
     this.router.navigate([loc]);
     this.menu.close();
   }
@@ -21,5 +27,5 @@ export class AppComponent {
     this.menu.enable(true, 'limomenu');
     this.menu.open('limomenu');
   }
-  
+
 }

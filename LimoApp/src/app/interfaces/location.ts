@@ -2,5 +2,6 @@
 export interface Location {
     name : string;
     address : string;
-    gps : number[];
+    lat : number;
+    lng : number;
 }

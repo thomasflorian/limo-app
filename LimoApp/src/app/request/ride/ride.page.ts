@@ -48,7 +48,7 @@ export class RidePage implements OnInit {
 
   // Loads the google map api
   loadMap() {
-    let center = [(this.pickupLoc.gps[0] + this.dropoffLoc.gps[0])/2, (this.pickupLoc.gps[1] + this.dropoffLoc.gps[1])/2]
+    let center = [(this.pickupLoc.lat + this.dropoffLoc.lat)/2, (this.pickupLoc.lng + this.dropoffLoc.lng)/2]
     // Set map options
     let mapOptions: google.maps.MapOptions = {
       center: new google.maps.LatLng(center[0], center[1]),
@@ -70,8 +70,8 @@ export class RidePage implements OnInit {
     this.loadMap();
     let directionService = new google.maps.DirectionsService();
     let request: google.maps.DirectionsRequest = {
-      origin: new google.maps.LatLng(this.pickupLoc.gps[0], this.pickupLoc.gps[1]),
-      destination: new google.maps.LatLng(this.dropoffLoc.gps[0], this.dropoffLoc.gps[1]),
+      origin: new google.maps.LatLng(this.pickupLoc.lat, this.pickupLoc.lng),
+      destination: new google.maps.LatLng(this.dropoffLoc.lat, this.dropoffLoc.lng),
       travelMode: google.maps.TravelMode.DRIVING,
       provideRouteAlternatives: false
     }
