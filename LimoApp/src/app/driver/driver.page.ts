@@ -17,7 +17,6 @@ export class DriverPage implements OnInit {
     private route: ActivatedRoute,
     private routerOutlet: IonRouterOutlet,
     private menu: MenuController,
-    private alertController: AlertController,
     private loadingController: LoadingController,
     private authService: AuthService) { }
 

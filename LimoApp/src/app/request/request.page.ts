@@ -1,7 +1,8 @@
+import { Storage } from '@ionic/storage-angular';
 import { Location } from './../interfaces/location';
 import { LocationsService } from './services/locations.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IonRouterOutlet, MenuController, Platform } from '@ionic/angular';
+import { IonRouterOutlet, MenuController, Platform, AlertController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
@@ -15,6 +16,7 @@ export class RequestPage implements OnInit {
   @ViewChild('map', { static: false }) mapElement: ElementRef;
   map: google.maps.Map;
 
+  name: string;
   locations: Location[];
   filteredLocations: Location[];
   currentLatLng: google.maps.LatLng;
@@ -27,7 +29,6 @@ export class RequestPage implements OnInit {
   loading: boolean = true; // Disables input until geolocation is loaded ... change this functionality in future.
   ready: boolean = false; // Disables request button until locations are selected.
   distanceThreshold: number = 0.001;  //Maximum distance allowed to be concidered "at this location" (in degrees lat/lng)
-
 
   // Getters and setters for pickup and dropoff fields.
   get pickup() {
@@ -48,7 +49,15 @@ export class RequestPage implements OnInit {
     this.getFilteredLocations(this._dropoff); // updates filtered locations when dropoff changes
   }
 
-  constructor(private geolocation: Geolocation, private plt: Platform, private router: Router, private route: ActivatedRoute, private routerOutlet: IonRouterOutlet, private menu: MenuController, private locationsService: LocationsService) { }
+  constructor(private geolocation: Geolocation,
+    private plt: Platform,
+    private router: Router,
+    private route: ActivatedRoute,
+    private routerOutlet: IonRouterOutlet,
+    private menu: MenuController,
+    private locationsService: LocationsService,
+    private storage: Storage,
+    private alertController: AlertController) { }
 
   // Runs when menu bar icon is clicked.
   openMenu() {
@@ -56,18 +65,23 @@ export class RequestPage implements OnInit {
     this.menu.open('limomenu');
   }
 
-  // Runs when component first loads.
-  ngOnInit() {
+  // Runs when component is loaded.
+  async ngOnInit() {
     this.routerOutlet.swipeGesture = false;
-    // Loads in location data.
-    this.locations = this.locationsService.getLocations();
-    this.filteredLocations = [];
     // Waits for platform to be ready.
     this.plt.ready().then(() => {
       // Loads in map
       this.loadMap();
+    });
+    // Loads in location data.
+    const locationsPromise = this.locationsService.getLocations().then((res) => {
+      this.locations = res;
       this.loadGeolocation();
     });
+    this.filteredLocations = [];
+    // Get name from storage
+    await this.storage.create();
+    this.name = await this.storage.get('name');
   }
 
   // Load in the current position of user
@@ -109,7 +123,7 @@ export class RequestPage implements OnInit {
     };
     geocoder.geocode(request, (results, status) => {
       if (status == google.maps.GeocoderStatus.OK) {
-        this.pickupLoc = { name: (results[0].address_components[0].short_name + " " + results[0].address_components[1].short_name), address: results[0].formatted_address, lat: latLng.lat(), lng: latLng.lng()};
+        this.pickupLoc = { name: (results[0].address_components[0].short_name + " " + results[0].address_components[1].short_name), address: results[0].formatted_address, lat: latLng.lat(), lng: latLng.lng() };
         this.pickup = this.pickupLoc.name;
       }
     })
@@ -118,7 +132,7 @@ export class RequestPage implements OnInit {
   // Loads the google map api
   loadMap() {
     // Set map options
-    let mapOptions: google.maps.MapOptions = {
+    const mapOptions: google.maps.MapOptions = {
       center: new google.maps.LatLng(43.03975745924356, -87.9308424643562),
       zoom: 16,
       // this mapId corresponds to custom styling of the map.
@@ -133,10 +147,24 @@ export class RequestPage implements OnInit {
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
   }
 
-  request() {
+  async request() {
     if (this.pickupLoc != null && this.dropoffLoc != null) {
-      this.router.navigate(["ride"], { relativeTo: this.route, state: { pickup: this.pickupLoc, dropoff: this.dropoffLoc } });
+      if (this.checkProfile()) {
+        this.router.navigate(["ride"], { relativeTo: this.route, replaceUrl: true, state: { pickup: this.pickupLoc, dropoff: this.dropoffLoc } });
+      } else {
+        const profileError = await this.alertController.create({
+          header: "Profile Error",
+          message: "Please specify a name in the profile tab",
+          buttons: ["OK"]
+        });
+        await profileError.present();
+        this.router.navigate(["profile"], { relativeTo: this.route.parent, replaceUrl: true })
+      }
     }
+  }
+
+  checkProfile() {
+    return this.name != "";
   }
 
   pickupFocus() {

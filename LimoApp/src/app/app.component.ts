@@ -1,20 +1,16 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
-import { LocationsService } from './request/services/locations.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private menu: MenuController) { }
-
-  ngOnInit() {
-  }
 
   // Navigates to location clicked in menu bar.
   navTo(loc: string) {
