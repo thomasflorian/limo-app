@@ -1,4 +1,3 @@
-import { switchMap } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Location } from './../../interfaces/location';
 import { Injectable } from '@angular/core';

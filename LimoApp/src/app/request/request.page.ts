@@ -50,7 +50,6 @@ export class RequestPage implements OnInit {
   }
 
   constructor(private geolocation: Geolocation,
-    private plt: Platform,
     private router: Router,
     private route: ActivatedRoute,
     private routerOutlet: IonRouterOutlet,
@@ -68,13 +67,8 @@ export class RequestPage implements OnInit {
   // Runs when component is loaded.
   async ngOnInit() {
     this.routerOutlet.swipeGesture = false;
-    // Waits for platform to be ready.
-    this.plt.ready().then(() => {
-      // Loads in map
-      this.loadMap();
-    });
     // Loads in location data.
-    const locationsPromise = this.locationsService.getLocations().then((res) => {
+    this.locationsService.getLocations().then((res) => {
       this.locations = res;
       this.loadGeolocation();
     });
@@ -82,6 +76,11 @@ export class RequestPage implements OnInit {
     // Get name from storage
     await this.storage.create();
     this.name = await this.storage.get('name');
+  }
+
+  // Load the map once the view is loaded
+  ionViewDidEnter() {
+    this.loadMap();
   }
 
   // Load in the current position of user
@@ -145,6 +144,8 @@ export class RequestPage implements OnInit {
       }
     } as google.maps.MapOptions;
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+    google.maps.event.trigger(this.map, 'resize');
+    this.map.setCenter(mapOptions.center);
   }
 
   async request() {
