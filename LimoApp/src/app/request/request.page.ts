@@ -65,22 +65,23 @@ export class RequestPage implements OnInit {
   }
 
   // Runs when component is loaded.
-  async ngOnInit() {
+  ngOnInit() {
     this.routerOutlet.swipeGesture = false;
+  }
+
+  // Runs once the view is loaded
+  async ionViewDidEnter() {
+    // Get name from storage
+    await this.storage.create();
+    this.name = await this.storage.get('name');
+    // Load the map
+    this.loadMap();
     // Loads in location data.
     this.locationsService.getLocations().then((res) => {
       this.locations = res;
       this.loadGeolocation();
     });
     this.filteredLocations = [];
-    // Get name from storage
-    await this.storage.create();
-    this.name = await this.storage.get('name');
-  }
-
-  // Load the map once the view is loaded
-  ionViewDidEnter() {
-    this.loadMap();
   }
 
   // Load in the current position of user

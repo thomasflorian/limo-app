@@ -31,14 +31,13 @@ export class RidePage implements OnInit {
       this.menu.swipeGesture(false);
       this.pickupLoc = this.router.getCurrentNavigation().extras.state.pickup;
       this.dropoffLoc = this.router.getCurrentNavigation().extras.state.dropoff;
-      this.plt.ready().then(() => {
-        this.loadRoute();
-      });
     }
   }
 
-  // Runs everytime page is loaded.
-  ionViewWillEnter() {
+  // Load the map once the view is loaded
+  ionViewDidEnter() {
+    this.loadMap();
+    this.loadRoute();
   }
 
   // Runs when cancel buttin is clicked.
