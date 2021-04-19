@@ -1,5 +1,6 @@
 import { MenuController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-tasks',
@@ -8,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TasksPage implements OnInit {
 
-  constructor(private menu : MenuController) { }
+  requests = [];
+
+  constructor(private db: AngularFirestore, 
+    private menu : MenuController) { }
 
   // Runs when menu bar icon is clicked.
   openMenu() {
@@ -17,6 +21,11 @@ export class TasksPage implements OnInit {
   }
 
   ngOnInit() {
+    this.db.collection("requests").valueChanges().subscribe({
+      next: (resp:any[]) => {
+        this.requests = resp;
+      }
+    });
   }
 
 }

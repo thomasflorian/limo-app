@@ -29,6 +29,9 @@ export class DriverPage implements OnInit {
   // Runs when page is first loaded
   ngOnInit() {
     this.routerOutlet.swipeGesture = false;
+    if (this.authService.currentUser.getValue()) {
+      this.router.navigate(['dashboard'], { relativeTo: this.route, replaceUrl: true })
+    }
   }
 
   // Check email/password with google firebase backend
@@ -41,7 +44,7 @@ export class DriverPage implements OnInit {
       // Successful login -> navigate to task page
       loading.dismiss();
       this.failedLogin = false;
-      this.router.navigate(['tasks'], { relativeTo: this.route, replaceUrl: true })
+      this.router.navigate(['dashboard'], { relativeTo: this.route, replaceUrl: true })
     }, async err => {
       // Unsuccessful login -> display notification
       loading.dismiss();

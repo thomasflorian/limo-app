@@ -39,4 +39,9 @@ export class AuthService {
       take(1)
     );
   }
+
+  signOut() {
+    this.afAuth.signOut();
+    this.currentUser = new BehaviorSubject(null);
+  }
 }

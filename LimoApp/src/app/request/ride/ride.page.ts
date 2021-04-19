@@ -1,8 +1,11 @@
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '../../interfaces/location';
 import { IonRouterOutlet, MenuController, NavController, Platform } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Storage } from '@ionic/storage-angular';
+import * as firebase from 'firebase';
 @Component({
   selector: 'app-ride',
   templateUrl: './ride.page.html',
@@ -13,11 +16,20 @@ export class RidePage implements OnInit {
   eta: number = 8;
   pickupLoc: Location;
   dropoffLoc: Location;
+  confirmed: boolean = false;
 
   // ViewChild selects the div element with id:"map" to load the map into.
   @ViewChild('map', { static: false }) mapElement: ElementRef;
   map: google.maps.Map;
-  constructor(private geolocation: Geolocation, private plt: Platform, private navCtrl: NavController, private router: Router, private route: ActivatedRoute, private routerOutlet: IonRouterOutlet, private menu: MenuController) { }
+  constructor( private storage: Storage,
+    private db: AngularFirestore,
+    private geolocation: Geolocation, 
+    private plt: Platform, 
+    private navCtrl: NavController, 
+    private router: Router, 
+    private route: ActivatedRoute, 
+    private routerOutlet: IonRouterOutlet, 
+    private menu: MenuController) { }
 
   // Runs when page first loads.
   ngOnInit() {
@@ -40,7 +52,22 @@ export class RidePage implements OnInit {
     this.loadRoute();
   }
 
-  // Runs when cancel buttin is clicked.
+  // Runs when confirm button is clicked.
+  async confirm() {
+    this.storage.get("name").then(async (name) => {
+      await this.db.collection("requests").doc().set({
+        name: name,
+        time: firebase.default.firestore.Timestamp.now(),
+        pickup: this.pickupLoc.name,
+        dropoff: this.dropoffLoc.name,
+        pickupLatLng: new firebase.default.firestore.GeoPoint(this.pickupLoc.lat, this.pickupLoc.lng),
+        dropoffLatLng: new firebase.default.firestore.GeoPoint(this.dropoffLoc.lat, this.dropoffLoc.lng)
+      })
+    })
+    this.confirmed = true;
+  }
+
+  // Runs when cancel button is clicked.
   cancel() {
     this.navCtrl.navigateBack([".."]);
   }
