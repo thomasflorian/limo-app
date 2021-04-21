@@ -13,6 +13,7 @@ export class ProfilePage implements OnInit {
   name: string;
   tel: string;
   alerts: string;
+  disabled: boolean = true;
 
   constructor(private plt: Platform, private storage: Storage, private router: Router, private route: ActivatedRoute, private menu: MenuController, private routerOutlet: IonRouterOutlet) { }
 
@@ -31,6 +32,10 @@ export class ProfilePage implements OnInit {
     this.name = await this.storage.get('name');
     this.tel = await this.storage.get('tel');
     this.alerts = await this.storage.get('alerts')
+  }
+
+  nameChange() {
+    this.disabled = (this.name == "");
   }
 
   async save() {

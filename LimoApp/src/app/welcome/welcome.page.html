@@ -17,7 +17,7 @@
         <ion-label>
           Name:
         </ion-label>
-        <ion-input type="text" [(ngModel)]="name" autocapitalize="true"></ion-input>
+        <ion-input type="text" [(ngModel)]="name" (ionChange)="nameChange()" autocapitalize="true"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>

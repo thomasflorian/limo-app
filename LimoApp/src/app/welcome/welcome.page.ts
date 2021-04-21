@@ -13,15 +13,17 @@ export class WelcomePage implements OnInit {
   name: string;
   tel: string;
   alerts: string;
-
-  //Getters and setters for name and telephone number
-
+  disabled: boolean = true;
 
   constructor(private routerOutlet: IonRouterOutlet, private storage: Storage, private router: Router, private route: ActivatedRoute) { }
 
   async ngOnInit() {
     this.routerOutlet.swipeGesture = false;
     await this.storage.create();
+  }
+
+  nameChange() {
+    this.disabled = (this.name == "");
   }
 
   async save() {
