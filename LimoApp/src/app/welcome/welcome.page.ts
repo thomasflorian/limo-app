@@ -14,6 +14,9 @@ export class WelcomePage implements OnInit {
   tel: string;
   alerts: string;
 
+  //Getters and setters for name and telephone number
+
+
   constructor(private routerOutlet: IonRouterOutlet, private storage: Storage, private router: Router, private route: ActivatedRoute) { }
 
   async ngOnInit() {

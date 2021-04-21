@@ -19,7 +19,7 @@ export class RequestPage implements OnInit {
   @ViewChild('map', { static: false }) mapElement: ElementRef;
   map: google.maps.Map;
 
-  name: string;
+  name: string = "";
   locations: Location[];
   filteredLocations: Location[];
   currentLatLng: google.maps.LatLng;
@@ -78,7 +78,7 @@ export class RequestPage implements OnInit {
   async ionViewDidEnter() {
     // Get name from storage
     await this.storage.create();
-    this.name = await this.storage.get('name');
+    this.name = await this.storage.get('name');   //This line does not always work properly in the emulator
     this.checkUserInfo();
     // Load the map
     this.loadMap();
@@ -156,16 +156,16 @@ export class RequestPage implements OnInit {
   }
 
   checkUserInfo(){
-    if(this.checkProfile()){
+    if(!this.profileExists()){
       this.router.navigate(["welcome"], { relativeTo: this.route.parent, replaceUrl: true });
-    } 
+    }
   }
 
   async request() {
     if (this.pickupLoc != null && this.dropoffLoc != null) {
       this.db.collection("drivers").valueChanges().pipe(take(1)).subscribe(async (res) => {
         if (res.length != 0) {
-          if (this.checkProfile()) {
+          if (this.profileExists()) {
             this.router.navigate(["ride"], { relativeTo: this.route, replaceUrl: true, state: { pickup: this.pickupLoc, dropoff: this.dropoffLoc } });
           } else {
             const profileError = await this.alertController.create({
@@ -188,7 +188,8 @@ export class RequestPage implements OnInit {
     }
   }
 
-  checkProfile() {
+  //Returns true if there is a value in name
+  profileExists() {
     return this.name != "";
   }
 
