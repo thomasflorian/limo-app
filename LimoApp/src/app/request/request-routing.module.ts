@@ -13,6 +13,11 @@ const routes: Routes = [
     // route to ride page
     path: 'ride',
     loadChildren: () => import('./ride/ride.module').then( m => m.RidePageModule)
+  },
+  {
+    // route to welcome page
+    path: 'welcome',
+    loadChildren: () => import('../welcome/welcome.module').then( m => m.WelcomePageModule)
   }
 ];
 

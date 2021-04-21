@@ -79,6 +79,10 @@ export class RequestPage implements OnInit {
     // Get name from storage
     await this.storage.create();
     this.name = await this.storage.get('name');
+    if(this.name == ''){
+      this.router.navigate(["welcome"], { relativeTo: this.route.parent, replaceUrl: true });
+    }
+    //this.checkUserInfo();
     // Load the map
     this.loadMap();
     // Loads in location data.
@@ -152,6 +156,16 @@ export class RequestPage implements OnInit {
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     google.maps.event.trigger(this.map, 'resize');
     this.map.setCenter(mapOptions.center);
+  }
+
+  async checkUserInfo(){
+
+    if(this.checkProfile()){
+      
+    }else{
+      this.router.navigate(["welcome"], { relativeTo: this.route.parent, replaceUrl: true });
+    }
+
   }
 
   async request() {
