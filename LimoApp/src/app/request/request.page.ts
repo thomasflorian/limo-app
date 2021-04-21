@@ -49,6 +49,7 @@ export class RequestPage implements OnInit {
 
   set dropoff(val) {
     this._dropoff = val;
+    this.checkUserInfo();
     this.getFilteredLocations(this._dropoff); // updates filtered locations when dropoff changes
   }
 
@@ -79,10 +80,7 @@ export class RequestPage implements OnInit {
     // Get name from storage
     await this.storage.create();
     this.name = await this.storage.get('name');
-    if(this.name == ''){
-      this.router.navigate(["welcome"], { relativeTo: this.route.parent, replaceUrl: true });
-    }
-    //this.checkUserInfo();
+    this.checkUserInfo();
     // Load the map
     this.loadMap();
     // Loads in location data.
@@ -158,20 +156,16 @@ export class RequestPage implements OnInit {
     this.map.setCenter(mapOptions.center);
   }
 
-  async checkUserInfo(){
-
+  checkUserInfo(){
     if(this.checkProfile()){
-      
-    }else{
       this.router.navigate(["welcome"], { relativeTo: this.route.parent, replaceUrl: true });
-    }
-
+    } 
   }
 
   async request() {
     if (this.pickupLoc != null && this.dropoffLoc != null) {
       this.db.collection("drivers").valueChanges().pipe(take(1)).subscribe(async (res) => {
-        if (res.length != 0) {
+        //if (res.length != 0) {
           if (this.checkProfile()) {
             this.router.navigate(["ride"], { relativeTo: this.route, replaceUrl: true, state: { pickup: this.pickupLoc, dropoff: this.dropoffLoc } });
           } else {
@@ -183,14 +177,14 @@ export class RequestPage implements OnInit {
             await profileError.present();
             this.router.navigate(["profile"], { relativeTo: this.route.parent, replaceUrl: true })
           }
-        } else {
+        /*} else {
           const noDriverError = await this.alertController.create({
             header: "Driver Error",
             message: "There are no drivers at this time",
             buttons: ["OK"]
           });
           await noDriverError.present();
-        }
+        }*/
       });
     }
   }
