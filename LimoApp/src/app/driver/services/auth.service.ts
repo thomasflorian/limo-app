@@ -1,3 +1,4 @@
+import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -12,7 +13,7 @@ export class AuthService {
 
   currentUser = new BehaviorSubject(null);
 
-  constructor(private afAuth: AngularFireAuth, private db: AngularFirestore, private router: Router) {
+  constructor(private afAuth: AngularFireAuth, private db: AngularFirestore, private router: Router, private menu: MenuController) {
     // authState observable will call next() when the authState is changed.
     this.afAuth.authState.subscribe(async user => {
       console.log('AUTH changed: ', user);
@@ -65,6 +66,7 @@ export class AuthService {
       console.log(user, ' deleted');
       await this.db.doc(`drivers/${user.id}`).delete();
     }
+    this.menu.enable(true, "limomenu");
     this.afAuth.signOut();
     this.currentUser.next(null);
   }
