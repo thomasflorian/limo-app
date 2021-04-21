@@ -66,6 +66,10 @@ export class RidePage implements OnInit {
     })
     this.confirmed = true;
   }
+  // Runs when back button is clicked;
+  back() {
+    this.navCtrl.navigateBack([".."]);
+  }
 
   // Runs when cancel button is clicked.
   cancel() {
@@ -74,7 +78,7 @@ export class RidePage implements OnInit {
 
   // Loads the google map api
   loadMap() {
-    let center = [(this.pickupLoc.lat + this.dropoffLoc.lat)/2, (this.pickupLoc.lng + this.dropoffLoc.lng)/2]
+    let center = [(this.pickupLoc?.lat + this.dropoffLoc?.lat)/2, (this.pickupLoc?.lng + this.dropoffLoc?.lng)/2]
     // Set map options
     let mapOptions: google.maps.MapOptions = {
       center: new google.maps.LatLng(center[0], center[1]),

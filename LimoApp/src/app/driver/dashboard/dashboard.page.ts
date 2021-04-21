@@ -19,20 +19,19 @@ export class DashboardPage implements OnInit {
     private db: AngularFirestore) { }
 
   openMenu() {
-    this.menu.enable(true, 'limomenu');
-    this.menu.open('limomenu');
+    this.menu.enable(true, 'drivermenu');
+    this.menu.open('drivermenu');
   }
 
   ngOnInit() {
   }
 
-  signOut() {
-    this.authService.signOut();
-    this.navCtrl.navigateBack([".."]);
-  }
-
   start() {
-    this.router.navigate(["driver", "tasks"])
+    const user = this.authService.currentUser.getValue();
+    if (user?.role == "DRIVER") {
+      this.db.collection("drivers").doc(`${user.id}`).set({requests:[]})
+      this.router.navigate(["driver", "tasks"])
+    }
   }
 
 }

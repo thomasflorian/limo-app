@@ -1,3 +1,4 @@
+import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from './services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -18,7 +19,8 @@ export class DriverPage implements OnInit {
     private routerOutlet: IonRouterOutlet,
     private menu: MenuController,
     private loadingController: LoadingController,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private db: AngularFirestore ) { }
 
   // Runs when menu bar icon is clicked.
   openMenu() {
@@ -29,9 +31,6 @@ export class DriverPage implements OnInit {
   // Runs when page is first loaded
   ngOnInit() {
     this.routerOutlet.swipeGesture = false;
-    if (this.authService.currentUser.getValue()) {
-      this.router.navigate(['dashboard'], { relativeTo: this.route, replaceUrl: true })
-    }
   }
 
   // Check email/password with google firebase backend
@@ -44,6 +43,7 @@ export class DriverPage implements OnInit {
       // Successful login -> navigate to task page
       loading.dismiss();
       this.failedLogin = false;
+      this.menu.enable(true, 'drivermenu');
       this.router.navigate(['dashboard'], { relativeTo: this.route, replaceUrl: true })
     }, async err => {
       // Unsuccessful login -> display notification

@@ -15,12 +15,16 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-card>
-    <ion-item *ngFor="let request of requests">
-      <ion-label style="font-size: 0.8rem;">Pickup {{ request.name }} at {{ request.pickup }}</ion-label>
-    </ion-item>
-    <ion-row style="height: 100%; margin-top: 25px;">
+  <ion-grid>
+    <ion-row style="z-index: 1; height: 0;">
+      <ion-card>
+        <ion-item *ngFor="let request of requests">
+          <ion-label style="font-size: 0.8rem;">Pickup {{ request.name }} at {{ request.pickup }}</ion-label>
+        </ion-item>
+      </ion-card>
+    </ion-row>
+    <ion-row style="height: 100%; margin-top: 200px; margin-bottom: 20px;">
       <div #map id="map"></div>
     </ion-row>
-  </ion-card>
+  </ion-grid>
 </ion-content>

@@ -1,3 +1,5 @@
+import { AuthService } from './../driver/services/auth.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Storage } from '@ionic/storage-angular';
 import { Location } from './../interfaces/location';
 import { LocationsService } from './services/locations.service';
@@ -5,6 +7,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IonRouterOutlet, MenuController, Platform, AlertController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-request',
@@ -56,7 +59,9 @@ export class RequestPage implements OnInit {
     private menu: MenuController,
     private locationsService: LocationsService,
     private storage: Storage,
-    private alertController: AlertController) { }
+    private alertController: AlertController,
+    private db: AngularFirestore,
+    private authService: AuthService) { }
 
   // Runs when menu bar icon is clicked.
   openMenu() {
@@ -151,17 +156,28 @@ export class RequestPage implements OnInit {
 
   async request() {
     if (this.pickupLoc != null && this.dropoffLoc != null) {
-      if (this.checkProfile()) {
-        this.router.navigate(["ride"], { relativeTo: this.route, replaceUrl: true, state: { pickup: this.pickupLoc, dropoff: this.dropoffLoc } });
-      } else {
-        const profileError = await this.alertController.create({
-          header: "Profile Error",
-          message: "Please specify a name in the profile tab",
-          buttons: ["OK"]
-        });
-        await profileError.present();
-        this.router.navigate(["profile"], { relativeTo: this.route.parent, replaceUrl: true })
-      }
+      this.db.collection("drivers").valueChanges().pipe(take(1)).subscribe(async (res) => {
+        if (res.length != 0) {
+          if (this.checkProfile()) {
+            this.router.navigate(["ride"], { relativeTo: this.route, replaceUrl: true, state: { pickup: this.pickupLoc, dropoff: this.dropoffLoc } });
+          } else {
+            const profileError = await this.alertController.create({
+              header: "Profile Error",
+              message: "Please specify a name in the profile tab",
+              buttons: ["OK"]
+            });
+            await profileError.present();
+            this.router.navigate(["profile"], { relativeTo: this.route.parent, replaceUrl: true })
+          }
+        } else {
+          const noDriverError = await this.alertController.create({
+            header: "Driver Error",
+            message: "There are no drivers at this time",
+            buttons: ["OK"]
+          });
+          await noDriverError.present();
+        }
+      });
     }
   }
 

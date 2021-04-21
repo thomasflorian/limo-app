@@ -22,5 +22,20 @@
       </ion-list>
     </ion-content>
   </ion-menu>
+  <ion-menu side="start" menuId="drivermenu" contentId="main">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title class="ion-no-padding ion-text-center" >Marquette Driver</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content color="medium">
+      <ion-list lines="full"> 
+        <ion-item color="medium" button (click)="signOut()">
+          <ion-icon color="dark" class="icon" name="log-out-outline"></ion-icon>
+          <ion-text color="dark" class="text-indent">Sign Out</ion-text>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
   <ion-router-outlet id="main"></ion-router-outlet>
 </ion-app>

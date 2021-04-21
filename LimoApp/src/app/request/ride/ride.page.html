@@ -2,7 +2,12 @@
   <ion-toolbar color="primary">
     <ion-title class="ion-no-padding ion-text-start">
       <ion-row class="ion-align-items-center">
-        <ion-col class="ion-text-center">
+        <ion-col size="4">
+          <ion-button [hidden]="confirmed" fill="clear" (click)="back()">
+            <ion-icon size="large" color="light" class="icon" name="arrow-back-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="4" class="ion-text-center">
           Ride
         </ion-col>
       </ion-row>
