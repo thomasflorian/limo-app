@@ -1,3 +1,4 @@
 package-lock.json
 .vs
 LimoApp/config.xml
+LimoApp/package-lock.json
