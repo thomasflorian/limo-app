@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-no-padding ion-text-start">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="4" class="ion-text-center">
+          Welcome
+        </ion-col>
+      </ion-row>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row class="ion-justify-content-center">
+    <ion-card class="request-card" style="width: 90%;">
+      <ion-item>
+        <ion-label>
+          Name:
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="name" autocapitalize="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          Phone:
+        </ion-label>
+        <ion-input type="tel" [(ngModel)]="tel" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          Enable sms alerts?
+        </ion-label>
+        <ion-checkbox [(ngModel)]="alerts"></ion-checkbox>
+      </ion-item>
+    </ion-card>
+  </ion-row>
+</ion-content>
+
+<ion-footer class="ion-no-border ion-padding-bottom ion-margin-bottom ">
+  <ion-row class="ion-justify-content-center">
+    <ion-button [disabled]="disabled" size="large" (click)="save()">SAVE CHANGES</ion-button>
+  </ion-row>
+</ion-footer>
