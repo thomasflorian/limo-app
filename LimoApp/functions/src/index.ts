@@ -4,7 +4,7 @@ import * as admin from "firebase-admin";
 admin.initializeApp();
 const db = admin.firestore();
 
-export const addRequest = functions.https.onCall(async (data) => {
+export const addRequest = functions.region("us-central1").https.onCall(async (data) => {
     // Get all driver queues.
     const drivers = await db.collection("drivers").get();
     const queues = drivers.docs;
@@ -22,13 +22,14 @@ export const addRequest = functions.https.onCall(async (data) => {
     return {driverID: choosenQueue.id};
 });
 
-export const cancelRequest = functions.https.onCall(async (data) => {
+export const cancelRequest = functions.region("us-central1").https.onCall(async (data) => {
     // get driver list.
     const driver = await db.collection("drivers").doc(data.driverId).get();
     const list = driver.get("requests");
-    console.log(driver)
-    console.log(list)
-    console.log(data)
+    
+    functions.logger.log(driver)
+    functions.logger.log(list)
+
     // find and delete cancelled request.
     for (let i = list.length-1; i >= 0; i--){
         if (list[i].id == data.id) {

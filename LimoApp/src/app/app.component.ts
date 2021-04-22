@@ -11,7 +11,8 @@ import { take, tap } from 'rxjs/operators';
 })
 export class AppComponent implements OnInit{
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private menu: MenuController,
     private authService: AuthService,

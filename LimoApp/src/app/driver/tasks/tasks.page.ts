@@ -2,6 +2,9 @@ import { MenuController } from '@ionic/angular';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from '../services/auth.service';
+import * as firebase from 'firebase';
+import { filter } from 'rxjs/operators';
+import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'app-tasks',
@@ -14,9 +17,11 @@ export class TasksPage implements OnInit {
   @ViewChild('map', { static: false }) mapElement: ElementRef;
   map: google.maps.Map;
   driver;
-  requests = [];
+  requests;
+  location;
 
-  constructor(private authService: AuthService,
+  constructor(private geolocation: Geolocation,
+    private authService: AuthService,
     private db: AngularFirestore, 
     private menu : MenuController) { }
 
@@ -28,10 +33,16 @@ export class TasksPage implements OnInit {
 
   ngOnInit() {
     this.authService.currentUser.subscribe((user) => this.driver = user);
-    this.db.collection("drivers").doc(this.driver.id).valueChanges().subscribe(
+    this.db.collection("drivers").doc(this.driver.id).valueChanges().pipe(filter(resp => resp != null)).subscribe(
       (resp) => {
         this.requests = (resp as any).requests;
     });
+    this.geolocation.watchPosition().subscribe((pos) => {
+      this.db.collection("drivers").doc(this.driver.id).update({position: new firebase.default.firestore.GeoPoint((<Geoposition>pos).coords.latitude, (<Geoposition>pos).coords.longitude)});
+      this.location = new google.maps.LatLng((<Geoposition>pos).coords.latitude, (<Geoposition>pos).coords.longitude);
+      this.map.setCenter(this.location);
+    });
+    
   }
 
    // Load the map once the view is loaded

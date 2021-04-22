@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { Request } from '../../interfaces/request';
+import { RideRequest, CancelRequest } from '../../interfaces/request';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +10,13 @@ export class RequestsService {
   constructor(private functions: AngularFireFunctions) { }
 
   // Call addRequest cloud function (LimoApp/functions/src/index.ts)
-  request(data: Request) {
+  request(data: RideRequest) {
     const callable = this.functions.httpsCallable("addRequest");
     return callable(data);
   }
 
   // Call cancelRequest cloud function (LimoApp/functions/src/index.ts)
-  cancel(data) {
+  cancel(data: CancelRequest) {
     const callable = this.functions.httpsCallable("cancelRequest");
     return callable(data);
   }

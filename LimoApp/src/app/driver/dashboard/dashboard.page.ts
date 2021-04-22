@@ -1,8 +1,10 @@
+import { GeolocationService } from './../../services/geolocation.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuController, NavController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +13,8 @@ import { AuthService } from '../services/auth.service';
 })
 export class DashboardPage implements OnInit {
 
-  constructor(private menu: MenuController,
+  constructor(private geolocationService: GeolocationService,
+    private menu: MenuController,
     private navCtrl: NavController,
     private route: ActivatedRoute,
     private router: Router,
@@ -26,11 +29,11 @@ export class DashboardPage implements OnInit {
   ngOnInit() {
   }
 
-  start() {
+  async start() {
     const user = this.authService.currentUser.getValue();
     if (user?.role == "DRIVER") {
-      this.db.collection("drivers").doc(`${user.id}`).set({requests:[]})
-      this.router.navigate(["driver", "tasks"])
+      await this.db.collection("drivers").doc(`${user.id}`).set({ requests: [], position: [] })
+      this.router.navigate(["driver", "tasks"]);
     }
   }
 

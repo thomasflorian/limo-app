@@ -7,7 +7,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Storage } from '@ionic/storage-angular';
 import * as firebase from 'firebase';
 import { RequestsService } from '../services/requests.service';
-import { Request } from 'src/app/interfaces/request';
+import { RideRequest, CancelRequest } from 'src/app/interfaces/request';
 @Component({
   selector: 'app-ride',
   templateUrl: './ride.page.html',
@@ -68,7 +68,7 @@ export class RidePage implements OnInit {
     const loading = await this.loadingController.create();
     await loading.present();
     // Create ride request.
-    const data: Request = {
+    const data: RideRequest = {
       id: this.userId,
       name: name,
       time: time,
@@ -105,7 +105,7 @@ export class RidePage implements OnInit {
     const loading = await this.loadingController.create();
     await loading.present();
     // Create cancel request
-    const data = {id: this.userId, driverId: this.driverId}
+    const data: CancelRequest = {id: this.userId, driverId: this.driverId}
     // Send cancel request to server
     this.requestsService.cancel(data).subscribe(
       (res) => {

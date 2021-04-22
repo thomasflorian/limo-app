@@ -155,9 +155,9 @@ export class RequestPage implements OnInit {
     this.map.setCenter(mapOptions.center);
   }
 
-  checkUserInfo(){
+  checkUserInfo() {
     // Check if user info available.
-    if(!this.profileExists()){
+    if (!this.profileExists()) {
       // Get user information.
       this.router.navigate(["welcome"], { relativeTo: this.route.parent, replaceUrl: true });
     }
