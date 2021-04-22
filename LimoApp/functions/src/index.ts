@@ -26,9 +26,6 @@ export const cancelRequest = functions.region("us-central1").https.onCall(async 
     // get driver list.
     const driver = await db.collection("drivers").doc(data.driverId).get();
     const list = driver.get("requests");
-    
-    functions.logger.log(driver)
-    functions.logger.log(list)
 
     // find and delete cancelled request.
     for (let i = list.length-1; i >= 0; i--){

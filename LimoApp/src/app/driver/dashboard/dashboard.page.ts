@@ -1,10 +1,8 @@
-import { GeolocationService } from './../../services/geolocation.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuController, NavController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +11,7 @@ import * as firebase from 'firebase';
 })
 export class DashboardPage implements OnInit {
 
-  constructor(private geolocationService: GeolocationService,
+  constructor(
     private menu: MenuController,
     private navCtrl: NavController,
     private route: ActivatedRoute,
