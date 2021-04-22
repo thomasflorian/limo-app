@@ -156,18 +156,25 @@ export class RequestPage implements OnInit {
   }
 
   checkUserInfo(){
+    // Check if user info available.
     if(!this.profileExists()){
+      // Get user information.
       this.router.navigate(["welcome"], { relativeTo: this.route.parent, replaceUrl: true });
     }
   }
 
   async request() {
+    // Check if valid locations are selected.
     if (this.pickupLoc != null && this.dropoffLoc != null) {
+      // Check if drivers are available.
       this.db.collection("drivers").valueChanges().pipe(take(1)).subscribe(async (res) => {
         if (res.length != 0) {
+          // Check if profile is available.
           if (this.profileExists()) {
+            // Navigate to ride page.
             this.router.navigate(["ride"], { relativeTo: this.route, replaceUrl: true, state: { pickup: this.pickupLoc, dropoff: this.dropoffLoc } });
           } else {
+            // Present error.
             const profileError = await this.alertController.create({
               header: "Profile Error",
               message: "Please specify a name in the profile tab",
@@ -177,6 +184,7 @@ export class RequestPage implements OnInit {
             this.router.navigate(["profile"], { relativeTo: this.route.parent, replaceUrl: true })
           }
         } else {
+          // Present error.
           const noDriverError = await this.alertController.create({
             header: "Driver Error",
             message: "There are no drivers at this time",

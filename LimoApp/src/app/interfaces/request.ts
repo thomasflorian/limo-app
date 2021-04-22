@@ -1,5 +1,6 @@
 // Define interface for location.
 export interface Request {
+    id: string,
     name: string,
     time: firebase.default.firestore.Timestamp,
     pickup: string,

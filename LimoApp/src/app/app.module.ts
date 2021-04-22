@@ -15,13 +15,13 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFireFunctionsModule, REGION } from '@angular/fire/functions';
+import { AngularFireFunctionsModule, USE_EMULATOR } from '@angular/fire/functions';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, IonicStorageModule.forRoot(), AngularFireModule.initializeApp(environment.firebase), AngularFirestoreModule, AngularFireAuthModule, AngularFireFunctionsModule],
-  providers: [Geolocation, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, { provide: REGION, useValue: "us-central1" }],
+  providers: [Geolocation, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, { provide: USE_EMULATOR, useValue: ['localhost', 5001] }],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

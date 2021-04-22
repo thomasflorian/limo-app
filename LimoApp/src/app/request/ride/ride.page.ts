@@ -2,7 +2,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '../../interfaces/location';
-import { IonRouterOutlet, MenuController, NavController, Platform, LoadingController } from '@ionic/angular';
+import { IonRouterOutlet, MenuController, NavController, Platform, LoadingController, AlertController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Storage } from '@ionic/storage-angular';
 import * as firebase from 'firebase';
@@ -19,11 +19,14 @@ export class RidePage implements OnInit {
   pickupLoc: Location;
   dropoffLoc: Location;
   confirmed: boolean = false;
+  userId: string;
+  driverId: string;
 
   // ViewChild selects the div element with id:"map" to load the map into.
   @ViewChild('map', { static: false }) mapElement: ElementRef;
   map: google.maps.Map;
-  constructor(private loadingController: LoadingController,
+  constructor(private alertController: AlertController,
+    private loadingController: LoadingController,
     private requestsService: RequestsService,
     private storage: Storage,
     private db: AngularFirestore,
@@ -59,22 +62,38 @@ export class RidePage implements OnInit {
   // Runs when confirm button is clicked.
   async confirm() {
     const name: string = await this.storage.get("name");
+    const time = firebase.default.firestore.Timestamp.now();
+    this.userId = name + time.valueOf(); // primitive id for testing purposes. should be practically impossible to generate two identical ids.
+
     const loading = await this.loadingController.create();
     await loading.present();
-
+    // Create ride request.
     const data: Request = {
+      id: this.userId,
       name: name,
-      time: firebase.default.firestore.Timestamp.now(),
+      time: time,
       pickup: this.pickupLoc.name,
       dropoff: this.dropoffLoc.name,
       pickupLatLng: new firebase.default.firestore.GeoPoint(this.pickupLoc.lat, this.pickupLoc.lng),
       dropoffLatLng: new firebase.default.firestore.GeoPoint(this.dropoffLoc.lat, this.dropoffLoc.lng),
     }
-
-    console.log(data);
-
-    this.requestsService.request(data).subscribe((res) => {loading.dismiss(); console.log("next")}, (err) => {loading.dismiss(); console.log(err)}, () => {loading.dismiss(); console.log("complete")});
-    this.confirmed = true;
+    // Send ride request to server.
+    this.requestsService.request(data).subscribe(
+      (res) => { 
+        // Record assigned driver id.
+        this.driverId = res.driverID;
+        loading.dismiss(); 
+        this.confirmed = true;
+       }
+      , async (err) => {
+        loading.dismiss();
+        const requestError = await this.alertController.create({
+          header: "Request Error",
+          message: "Error requesting ride.",
+          buttons: ["OK"]
+        });
+        await requestError.present();
+      });
   }
   // Runs when back button is clicked;
   back() {
@@ -82,8 +101,27 @@ export class RidePage implements OnInit {
   }
 
   // Runs when cancel button is clicked.
-  cancel() {
-    this.navCtrl.navigateBack([".."]);
+  async cancel() {
+    const loading = await this.loadingController.create();
+    await loading.present();
+    // Create cancel request
+    const data = {id: this.userId, driverId: this.driverId}
+    // Send cancel request to server
+    this.requestsService.cancel(data).subscribe(
+      (res) => {
+        loading.dismiss();
+        this.navCtrl.navigateBack([".."]);
+      }, 
+      async (err) => {
+        loading.dismiss();
+        const requestError = await this.alertController.create({
+          header: "Request Error",
+          message: "Error canceling ride.",
+          buttons: ["OK"]
+        });
+        await requestError.present();
+      }
+    );
   }
 
   // Loads the google map api

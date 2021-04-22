@@ -16,7 +16,6 @@ export class AuthService {
   constructor(private afAuth: AngularFireAuth, private db: AngularFirestore, private router: Router, private menu: MenuController) {
     // authState observable will call next() when the authState is changed.
     this.afAuth.authState.subscribe(async user => {
-      console.log('AUTH changed: ', user);
       if (user) {
         this.db.doc(`users/${user.uid}`).valueChanges().pipe(
           // Update current user.
@@ -63,7 +62,6 @@ export class AuthService {
   async signOut() {
     const user = this.currentUser.getValue();
     if (user?.role == "DRIVER") {
-      console.log(user, ' deleted');
       await this.db.doc(`drivers/${user.id}`).delete();
     }
     this.menu.enable(true, "limomenu");
