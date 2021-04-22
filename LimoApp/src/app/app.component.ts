@@ -3,13 +3,13 @@ import { AuthService } from './driver/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MenuController, Platform } from '@ionic/angular';
-import { take } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent{
+export class AppComponent implements OnInit{
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -17,6 +17,9 @@ export class AppComponent{
     private authService: AuthService,
     private db: AngularFirestore,
     private plt: Platform) { }
+
+  async ngOnInit() {
+  }
 
 
   // Runs when menu bar icon is clicked.

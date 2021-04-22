@@ -2,10 +2,12 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '../../interfaces/location';
-import { IonRouterOutlet, MenuController, NavController, Platform } from '@ionic/angular';
+import { IonRouterOutlet, MenuController, NavController, Platform, LoadingController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Storage } from '@ionic/storage-angular';
 import * as firebase from 'firebase';
+import { RequestsService } from '../services/requests.service';
+import { Request } from 'src/app/interfaces/request';
 @Component({
   selector: 'app-ride',
   templateUrl: './ride.page.html',
@@ -21,14 +23,16 @@ export class RidePage implements OnInit {
   // ViewChild selects the div element with id:"map" to load the map into.
   @ViewChild('map', { static: false }) mapElement: ElementRef;
   map: google.maps.Map;
-  constructor( private storage: Storage,
+  constructor(private loadingController: LoadingController,
+    private requestsService: RequestsService,
+    private storage: Storage,
     private db: AngularFirestore,
-    private geolocation: Geolocation, 
-    private plt: Platform, 
-    private navCtrl: NavController, 
-    private router: Router, 
-    private route: ActivatedRoute, 
-    private routerOutlet: IonRouterOutlet, 
+    private geolocation: Geolocation,
+    private plt: Platform,
+    private navCtrl: NavController,
+    private router: Router,
+    private route: ActivatedRoute,
+    private routerOutlet: IonRouterOutlet,
     private menu: MenuController) { }
 
   // Runs when page first loads.
@@ -54,16 +58,22 @@ export class RidePage implements OnInit {
 
   // Runs when confirm button is clicked.
   async confirm() {
-    this.storage.get("name").then(async (name) => {
-      await this.db.collection("requests").doc().set({
-        name: name,
-        time: firebase.default.firestore.Timestamp.now(),
-        pickup: this.pickupLoc.name,
-        dropoff: this.dropoffLoc.name,
-        pickupLatLng: new firebase.default.firestore.GeoPoint(this.pickupLoc.lat, this.pickupLoc.lng),
-        dropoffLatLng: new firebase.default.firestore.GeoPoint(this.dropoffLoc.lat, this.dropoffLoc.lng)
-      })
-    })
+    const name: string = await this.storage.get("name");
+    const loading = await this.loadingController.create();
+    await loading.present();
+
+    const data: Request = {
+      name: name,
+      time: firebase.default.firestore.Timestamp.now(),
+      pickup: this.pickupLoc.name,
+      dropoff: this.dropoffLoc.name,
+      pickupLatLng: new firebase.default.firestore.GeoPoint(this.pickupLoc.lat, this.pickupLoc.lng),
+      dropoffLatLng: new firebase.default.firestore.GeoPoint(this.dropoffLoc.lat, this.dropoffLoc.lng),
+    }
+
+    console.log(data);
+
+    this.requestsService.request(data).subscribe((res) => {loading.dismiss(); console.log("next")}, (err) => {loading.dismiss(); console.log(err)}, () => {loading.dismiss(); console.log("complete")});
     this.confirmed = true;
   }
   // Runs when back button is clicked;
@@ -78,7 +88,7 @@ export class RidePage implements OnInit {
 
   // Loads the google map api
   loadMap() {
-    let center = [(this.pickupLoc?.lat + this.dropoffLoc?.lat)/2, (this.pickupLoc?.lng + this.dropoffLoc?.lng)/2]
+    let center = [(this.pickupLoc?.lat + this.dropoffLoc?.lat) / 2, (this.pickupLoc?.lng + this.dropoffLoc?.lng) / 2]
     // Set map options
     let mapOptions: google.maps.MapOptions = {
       center: new google.maps.LatLng(center[0], center[1]),
