@@ -1,6 +1,7 @@
 import { MenuController } from '@ionic/angular';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-tasks',
@@ -12,9 +13,11 @@ export class TasksPage implements OnInit {
   // ViewChild selects the div element with id:"map" to load the map into.
   @ViewChild('map', { static: false }) mapElement: ElementRef;
   map: google.maps.Map;
+  driver;
   requests = [];
 
-  constructor(private db: AngularFirestore, 
+  constructor(private authService: AuthService,
+    private db: AngularFirestore, 
     private menu : MenuController) { }
 
   // Runs when menu bar icon is clicked.
@@ -24,10 +27,10 @@ export class TasksPage implements OnInit {
   }
 
   ngOnInit() {
-    this.db.collection("requests").valueChanges().subscribe({
-      next: (resp:any[]) => {
-        this.requests = resp;
-      }
+    this.authService.currentUser.subscribe((user) => this.driver = user);
+    this.db.collection("drivers").doc(this.driver.id).valueChanges().subscribe(
+      (resp) => {
+        this.requests = (resp as any).requests;
     });
   }
 

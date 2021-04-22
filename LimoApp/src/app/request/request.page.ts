@@ -198,7 +198,7 @@ export class RequestPage implements OnInit {
 
   //Returns true if there is a value in name
   profileExists() {
-    return this.name != "";
+    return this.name != "" && this.name != null;
   }
 
   pickupFocus() {
