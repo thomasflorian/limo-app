@@ -19,6 +19,11 @@ export class RequestPage implements OnInit {
   @ViewChild('map', { static: false }) mapElement: ElementRef;
   map: google.maps.Map;
 
+  campusBounds: number[][][] = [  [[43.04307, 43.04480] , [-87.93453, -87.92965]],
+                                  [[43.04129, 43.04364] , [-87.93838, -87.92667]],
+                                  [[43.03984, 43.04204] , [-87.94199, -87.92572]],
+                                  [[43.03702, 43.04064] , [-87.94316, -87.91975]],
+                                  [[43.03585, 43.03785] , [-87.94105, -87.92548]]];  //[[latmin, latmax] , [lngmin, lngmax]]
   name: string = "";
   locations: Location[];
   filteredLocations: Location[];
@@ -160,40 +165,62 @@ export class RequestPage implements OnInit {
     if (!this.profileExists()) {
       // Get user information.
       this.router.navigate(["welcome"], { relativeTo: this.route.parent, replaceUrl: true });
-    }
+    } 
   }
 
   async request() {
     // Check if valid locations are selected.
     if (this.pickupLoc != null && this.dropoffLoc != null) {
-      // Check if drivers are available.
-      this.db.collection("drivers").valueChanges().pipe(take(1)).subscribe(async (res) => {
-        if (res.length != 0) {
-          // Check if profile is available.
-          if (this.profileExists()) {
-            // Navigate to ride page.
-            this.router.navigate(["ride"], { relativeTo: this.route, replaceUrl: true, state: { pickup: this.pickupLoc, dropoff: this.dropoffLoc } });
+      // Check if locations are within campus bounds
+      if(this.checkLocation([this.pickupLoc.lat, this.pickupLoc.lng]) && this.checkLocation([this.dropoffLoc.lat, this.dropoffLoc.lng])){
+        // Check if drivers are available.
+        this.db.collection("drivers").valueChanges().pipe(take(1)).subscribe(async (res) => {
+          if (res.length != 0) {
+            // Check if profile is available.
+            if (this.profileExists()) {
+              // Navigate to ride page.
+              this.router.navigate(["ride"], { relativeTo: this.route, replaceUrl: true, state: { pickup: this.pickupLoc, dropoff: this.dropoffLoc } });
+            } else {
+              // Present error.
+              const profileError = await this.alertController.create({
+                header: "Profile Error",
+                message: "Please specify a name in the profile tab",
+                buttons: ["OK"]
+              });
+              await profileError.present();
+              this.router.navigate(["profile"], { relativeTo: this.route.parent, replaceUrl: true })
+            }
           } else {
             // Present error.
-            const profileError = await this.alertController.create({
-              header: "Profile Error",
-              message: "Please specify a name in the profile tab",
+            const noDriverError = await this.alertController.create({
+              header: "Driver Error",
+              message: "There are no drivers at this time",
               buttons: ["OK"]
             });
-            await profileError.present();
-            this.router.navigate(["profile"], { relativeTo: this.route.parent, replaceUrl: true })
+            await noDriverError.present();
           }
-        } else {
-          // Present error.
-          const noDriverError = await this.alertController.create({
-            header: "Driver Error",
-            message: "There are no drivers at this time",
-            buttons: ["OK"]
-          });
-          await noDriverError.present();
-        }
-      });
+        });
+      } else {
+        //Present error
+        const boundsError = await this.alertController.create({
+          header: "Location Error",
+          message: "Location outside of Campus Bounds",
+          buttons: ["OK"]
+        });
+        await boundsError.present();
+      }
     }
+  }
+
+  checkLocation(Loc: number[]){
+    // Navigating campus bounds array
+      for(let u = 0; u < 4; u++) {
+        //if(LocCoord >= minCoord && locCoord <= maxCoord)
+        if((Loc[0] >= this.campusBounds[u][0][0] && Loc[1] >= this.campusBounds[u][1][0]) && (Loc[0] <= this.campusBounds[u][0][1] && (Loc[1] <= this.campusBounds[u][1][1]))) {   
+          return true;
+        }
+      }
+    return false;
   }
 
   //Returns true if there is a value in name
