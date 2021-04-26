@@ -1,9 +1,9 @@
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from './driver/services/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { MenuController, Platform } from '@ionic/angular';
-import { take, tap } from 'rxjs/operators';
+import { MenuController } from '@ionic/angular';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -13,13 +13,10 @@ export class AppComponent implements OnInit{
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
     private menu: MenuController,
-    private authService: AuthService,
-    private db: AngularFirestore,
-    private plt: Platform) { }
+    private authService: AuthService) { }
 
-  async ngOnInit() {
+  ngOnInit() {
   }
 
 

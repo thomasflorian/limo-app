@@ -6,34 +6,39 @@ const db = admin.firestore();
 
 export const addRequest = functions.region("us-central1").https.onCall(async (data) => {
     // Get all driver queues.
-    const drivers = await db.collection("drivers").get();
-    const queues = drivers.docs;
+    const drivers = (await db.collection("drivers").get()).docs;
     // Logic for choosing which queue to add request to. Currently adds request to smallest queue.
-    let choosenQueue = queues[0];
-    for (let i = 1; i < queues.length; i++) {
-        if (queues[i].data().requests.length < choosenQueue.data().requests.length ) {
-            choosenQueue = queues[i];
+    let choosenDriver = drivers[0];
+    for (let i = 1; i < drivers.length; i++) {
+        if (drivers[i].data().requests.length < choosenDriver.data().requests.length ) {
+            choosenDriver = drivers[i];
         }
     }
     // Update choosen queue.
-    const updatedRequests = choosenQueue.data().requests.concat([data]);
-    await db.collection("drivers").doc(choosenQueue.id).set({requests: updatedRequests});
+    const updatedRequests = choosenDriver.data().requests.concat([data]);
+    const updatedQueuedRiders = choosenDriver.data().queuedRiders + 1;
+    
+    // Update driver information
+    await db.collection("drivers").doc(choosenDriver.id).update({requests: updatedRequests, queuedRiders: updatedQueuedRiders});
     // Return driver information.
-    return {driverID: choosenQueue.id};
+    return {driverID: choosenDriver.id};
 });
 
 export const cancelRequest = functions.region("us-central1").https.onCall(async (data) => {
     // get driver list.
     const driver = await db.collection("drivers").doc(data.driverId).get();
-    const list = driver.get("requests");
+    let requests = driver.get("requests");
+    let queuedRiders = driver.get("queuedRiders");
 
     // find and delete cancelled request.
-    for (let i = list.length-1; i >= 0; i--){
-        if (list[i].id == data.id) {
-            list.splice(i,1);
+    for (let i = requests.length-1; i >= 0; i--){
+        if (requests[i].id == data.id) {
+            requests.splice(i,1);
+            queuedRiders -= 1;
             break;
         }
     }
-    await db.collection("drivers").doc(data.driverId).set({requests: list});
+    // Update driver information
+    await db.collection("drivers").doc(data.driverId).update({requests: requests, queuedRiders: queuedRiders});
 });
 

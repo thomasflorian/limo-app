@@ -18,7 +18,6 @@ export class WelcomePage implements OnInit {
   constructor(private routerOutlet: IonRouterOutlet, private storage: Storage, private router: Router, private route: ActivatedRoute) { }
 
   async ngOnInit() {
-    this.routerOutlet.swipeGesture = false;
     await this.storage.create();
   }
 

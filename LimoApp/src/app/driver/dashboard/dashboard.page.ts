@@ -30,8 +30,8 @@ export class DashboardPage implements OnInit {
   async start() {
     const user = this.authService.currentUser.getValue();
     if (user?.role == "DRIVER") {
-      await this.db.collection("drivers").doc(`${user.id}`).set({ requests: [], position: [] })
-      this.router.navigate(["driver", "tasks"]);
+      await this.db.collection("drivers").doc(`${user.id}`).set({ requests: [], position: [], curRiders: 0, queuedRiders: 0 })
+      this.router.navigateByUrl("driver/tasks");
     }
   }
 

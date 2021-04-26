@@ -42,7 +42,7 @@ export class RidePage implements OnInit {
   ngOnInit() {
     if (this.router.getCurrentNavigation().extras.state == null) {
       // TODO: This is a temp error fix. Change behavior in later development.
-      this.navCtrl.navigateBack([".."]);
+      this.navCtrl.navigateBack([""]);
     } else {
       // Disables swipe gestures for opening menu and returning to previous page.
       // TODO: Look into android back button and how that'll effect the app.
@@ -110,7 +110,7 @@ export class RidePage implements OnInit {
     this.requestsService.cancel(data).subscribe(
       (res) => {
         loading.dismiss();
-        this.navCtrl.navigateBack([".."]);
+        this.navCtrl.navigateBack("request");
       }, 
       async (err) => {
         loading.dismiss();
