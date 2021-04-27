@@ -53,6 +53,7 @@ export class AppComponent implements OnInit {
     this.menu.close();
   }
 
+  // Signs out driver.
   signOut() {
     this.authService.signOut();
     this.router.navigate([""]);

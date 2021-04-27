@@ -11,6 +11,8 @@ import { AuthService } from '../services/auth.service';
 })
 export class DashboardPage implements OnInit {
 
+  driver: object;
+
   constructor(
     private menu: MenuController,
     private navCtrl: NavController,
@@ -25,6 +27,7 @@ export class DashboardPage implements OnInit {
   }
 
   ngOnInit() {
+    this.driver = this.authService.currentUser.getValue();
   }
 
   async start() {

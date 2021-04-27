@@ -24,8 +24,13 @@ export class AuthService {
             this.currentUser.next({
               email: user.email,
               id: user.uid,
-              name: res.name,
-              role: res.role
+              firstname: res.firstname,
+              lastname: res.lastname,
+              phone: res.phone,
+              role: res.role,
+              stat1: res.stat1,
+              stat2: res.stat2,
+              stat3: res.stat3
             });
             // If driver is logged in, redirect them to active page.
             if (res.role == "DRIVER") {
@@ -33,9 +38,9 @@ export class AuthService {
                 take(1),
                 tap((driver) => {
                   if (driver.exists) {
-                    this.router.navigateByUrl('driver/tasks')
+                    this.router.navigateByUrl('driver/tasks');
                   } else {
-                    this.router.navigateByUrl('driver/dashboard')
+                    this.router.navigateByUrl('driver/dashboard');
                   }
                 })
               ).subscribe();

@@ -17,7 +17,57 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  content
+  <ion-grid class="ion-no-padding">
+    <ion-row style="min-height: 135px; padding-top: 35px;">
+      <ion-col size=4 offset=4 style="background-color: var(--ion-color-secondary); border-radius: 10px; height: 100%; border: 1px solid var(--ion-color-dark-tint);">
+
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-text-center ion-justify-content-center">
+      <ion-text class="name">
+       <h1> {{ driver.lastname }},  {{ driver.firstname }} </h1>
+      </ion-text>
+    </ion-row>
+    <ion-row style="background-color: var(--ion-color-primary-tint); padding: 10px 0px;" class="ion-align-items-center">
+      <ion-col size=3>
+        <ion-icon style="padding: 0px 20px;" size=large name="call-outline"></ion-icon>
+      </ion-col>
+      <ion-col size=9>
+        <ion-text>
+          MOBILE
+        </ion-text>
+        <br>
+        <ion-text>
+          {{ driver.phone }}
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row style="background-color: var(--ion-color-primary-tint); padding: 10px 0px;" class="ion-align-items-center">
+      <ion-col size=3>
+        <ion-icon style="padding: 0px 20px;" size=large name="mail-outline"></ion-icon>
+      </ion-col>
+      <ion-col size=9>
+        <ion-text>
+          EMAIL
+        </ion-text>
+        <br>
+        <ion-text>
+          {{ driver.email }}
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row style="background-color: var(--ion-color-primary-tint); min-height: 120px; padding: 10px 4px">
+      <ion-col size=4 style="background-color: var(--ion-color-secondary); border-radius: 10px; height: 100%; border: 2px solid var(--ion-color-primary-tint);">
+
+      </ion-col>
+      <ion-col size=4 style="background-color: var(--ion-color-secondary); border-radius: 10px; height: 100%; border: 2px solid var(--ion-color-primary-tint);">
+
+      </ion-col>
+      <ion-col size=4 style="background-color: var(--ion-color-secondary); border-radius: 10px; height: 100%; border: 2px solid var(--ion-color-primary-tint);">
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 <ion-footer class="ion-no-border ion-padding-bottom ion-margin-bottom ">
   <ion-row>
