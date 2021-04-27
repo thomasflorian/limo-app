@@ -20,6 +20,7 @@ export const addRequest = functions.region("us-central1").https.onCall(async (da
     
     // Update driver information
     await db.collection("drivers").doc(choosenDriver.id).update({requests: updatedRequests, queuedRiders: updatedQueuedRiders});
+    await db.collection("requests").doc(data.id).set({driverId: choosenDriver.id, pickedUp: false, pickup: data.pickup, dropoff: data.dropoff});
     // Return driver information.
     return {driverID: choosenDriver.id};
 });
@@ -40,5 +41,6 @@ export const cancelRequest = functions.region("us-central1").https.onCall(async 
     }
     // Update driver information
     await db.collection("drivers").doc(data.driverId).update({requests: requests, queuedRiders: queuedRiders});
+    await db.collection("requests").doc(data.id).delete();
 });
 

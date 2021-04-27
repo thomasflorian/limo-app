@@ -179,7 +179,7 @@ export class RequestPage implements OnInit {
             // Check if profile is available.
             if (this.profileExists()) {
               // Navigate to ride page.
-              this.router.navigate(["ride"], { relativeTo: this.route, replaceUrl: true, state: { pickup: this.pickupLoc, dropoff: this.dropoffLoc } });
+              this.router.navigate(["ride"], { relativeTo: this.route, replaceUrl: true, state: { pickup: this.pickupLoc, dropoff: this.dropoffLoc, confirmed: false } });
             } else {
               // Present error.
               const profileError = await this.alertController.create({

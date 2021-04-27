@@ -27,7 +27,6 @@ export class ProfilePage implements OnInit {
   async ngOnInit() {
     // Disables ability to swipe back to previous page.
     this.routerOutlet.swipeGesture = false;
-    await this.storage.create();
     // Retrieves name, tel, and alerts values.
     this.name = await this.storage.get('name');
     this.tel = await this.storage.get('tel');

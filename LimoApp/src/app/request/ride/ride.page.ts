@@ -19,8 +19,6 @@ export class RidePage implements OnInit {
   pickupLoc: Location;
   dropoffLoc: Location;
   confirmed: boolean = false;
-  userId: string;
-  driverId: string;
 
   // ViewChild selects the div element with id:"map" to load the map into.
   @ViewChild('map', { static: false }) mapElement: ElementRef;
@@ -50,6 +48,7 @@ export class RidePage implements OnInit {
       this.menu.swipeGesture(false);
       this.pickupLoc = this.router.getCurrentNavigation().extras.state.pickup;
       this.dropoffLoc = this.router.getCurrentNavigation().extras.state.dropoff;
+      this.confirmed = this.router.getCurrentNavigation().extras.state.confirmed;
     }
   }
 
@@ -63,25 +62,25 @@ export class RidePage implements OnInit {
   async confirm() {
     const name: string = await this.storage.get("name");
     const time = firebase.default.firestore.Timestamp.now();
-    this.userId = name + time.valueOf(); // primitive id for testing purposes. should be practically impossible to generate two identical ids.
+    const userId = name + time.valueOf(); // primitive id for testing purposes. should be practically impossible to generate two identical ids.
+
 
     const loading = await this.loadingController.create();
     await loading.present();
     // Create ride request.
     const data: RideRequest = {
-      id: this.userId,
+      id: userId,
       name: name,
       time: time,
-      pickup: this.pickupLoc.name,
-      dropoff: this.dropoffLoc.name,
-      pickupLatLng: new firebase.default.firestore.GeoPoint(this.pickupLoc.lat, this.pickupLoc.lng),
-      dropoffLatLng: new firebase.default.firestore.GeoPoint(this.dropoffLoc.lat, this.dropoffLoc.lng),
+      pickup: this.pickupLoc,
+      dropoff: this.dropoffLoc
     }
     // Send ride request to server.
     this.requestsService.request(data).subscribe(
-      (res) => { 
+      async (res) => { 
         // Record assigned driver id.
-        this.driverId = res.driverID;
+        await this.storage.set("driverId", res.driverID)
+        await this.storage.set("userId", userId);
         loading.dismiss(); 
         this.confirmed = true;
        }
@@ -103,12 +102,16 @@ export class RidePage implements OnInit {
   // Runs when cancel button is clicked.
   async cancel() {
     const loading = await this.loadingController.create();
+    const userId = await this.storage.get("userId");
+    const driverId = await this.storage.get("driverId");
     await loading.present();
     // Create cancel request
-    const data: CancelRequest = {id: this.userId, driverId: this.driverId}
+    const data: CancelRequest = {id: userId, driverId: driverId}
     // Send cancel request to server
     this.requestsService.cancel(data).subscribe(
-      (res) => {
+      async (res) => {
+        await this.storage.remove("userId");
+        await this.storage.remove("driverId");
         loading.dismiss();
         this.navCtrl.navigateBack("request");
       }, 
