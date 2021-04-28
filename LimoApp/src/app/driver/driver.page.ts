@@ -20,7 +20,7 @@ export class DriverPage implements OnInit {
     private menu: MenuController,
     private loadingController: LoadingController,
     private authService: AuthService,
-    private db: AngularFirestore ) { }
+    private db: AngularFirestore) { }
 
   // Runs when menu bar icon is clicked.
   openMenu() {
@@ -39,17 +39,20 @@ export class DriverPage implements OnInit {
     const loading = await this.loadingController.create();
     await loading.present();
 
-    this.authService.signIn({ email: this.email, password: this.password }).subscribe((user: any) => {
-      // Successful login -> navigate to task page
-      loading.dismiss();
-      this.failedLogin = false;
-      this.menu.enable(true, 'drivermenu');
-      this.router.navigate(['dashboard'], { relativeTo: this.route, replaceUrl: true })
-    }, async err => {
-      // Unsuccessful login -> display notification
-      loading.dismiss();
-      this.failedLogin = true;
+    this.authService.signIn({ email: this.email, password: this.password }).then((res) => {
+      res.subscribe((user) => {
+        // Successful login -> navigate to task page
+        loading.dismiss();
+        this.failedLogin = false;
+        this.menu.enable(true, 'drivermenu');
+        this.router.navigateByUrl("driver/dashboard", {state: res});
+      }, async err => {
+        // Unsuccessful login -> display notification
+        loading.dismiss();
+        this.failedLogin = true;
+      });
     });
+
   }
 
 }

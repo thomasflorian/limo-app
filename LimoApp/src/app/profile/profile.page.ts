@@ -42,5 +42,6 @@ export class ProfilePage implements OnInit {
     await this.storage.set('name', this.name);
     await this.storage.set('tel', this.tel);
     await this.storage.set('alerts', this.alerts);
+    this.router.navigateByUrl("");
   }
 }

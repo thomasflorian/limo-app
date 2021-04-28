@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, from } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators'
 
 @Injectable({
@@ -32,6 +32,7 @@ export class AuthService {
               stat2: res.stat2,
               stat3: res.stat3
             });
+            console.log("auth changed: ", user);
             // If driver is logged in, redirect them to active page.
             if (res.role == "DRIVER") {
               this.db.doc(`drivers/${user.uid}`).get().pipe(
@@ -52,14 +53,9 @@ export class AuthService {
   }
 
   // Sign in user to firebase authentication.
-  signIn({ email, password }) {
-    const data = from(this.afAuth.signInWithEmailAndPassword(email, password));
-    return data.pipe(
-      switchMap(res => {
-        return this.db.doc(`users/${res.user.uid}`).valueChanges();
-      }),
-      take(1)
-    );
+  async signIn({ email, password }){
+    const res = await this.afAuth.signInWithEmailAndPassword(email, password);
+    return this.db.doc(`users/${res.user.uid}`).valueChanges().pipe(take(1));
   }
 
 

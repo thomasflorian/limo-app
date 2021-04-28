@@ -11,7 +11,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class DashboardPage implements OnInit {
 
-  driver: object;
+  driver: any;
 
   constructor(
     private menu: MenuController,
@@ -27,13 +27,15 @@ export class DashboardPage implements OnInit {
   }
 
   ngOnInit() {
-    this.driver = this.authService.currentUser.getValue();
+    this.authService.currentUser.subscribe((user) => {
+      this.driver = user;
+      console.log(this.driver);
+    });
   }
 
   async start() {
-    const user = this.authService.currentUser.getValue();
-    if (user?.role == "DRIVER") {
-      await this.db.collection("drivers").doc(`${user.id}`).set({ requests: [], position: [], curRiders: 0, queuedRiders: 0 })
+    if (this.driver?.role == "DRIVER") {
+      await this.db.collection("drivers").doc(`${this.driver.id}`).set({ requests: [], position: [], curRiders: 0, queuedRiders: 0 })
       this.router.navigateByUrl("driver/tasks");
     }
   }
