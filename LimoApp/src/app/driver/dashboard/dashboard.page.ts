@@ -29,7 +29,6 @@ export class DashboardPage implements OnInit {
   ngOnInit() {
     this.authService.currentUser.subscribe((user) => {
       this.driver = user;
-      console.log(this.driver);
     });
   }
 

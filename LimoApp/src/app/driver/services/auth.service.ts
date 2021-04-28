@@ -32,7 +32,6 @@ export class AuthService {
               stat2: res.stat2,
               stat3: res.stat3
             });
-            console.log("auth changed: ", user);
             // If driver is logged in, redirect them to active page.
             if (res.role == "DRIVER") {
               this.db.doc(`drivers/${user.uid}`).get().pipe(
