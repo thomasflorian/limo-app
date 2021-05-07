@@ -13,7 +13,7 @@ export class ProfilePage {
   name: string;
   tel: string;
   alerts: string;
-  disabled: boolean = true;
+  disabled: boolean = false;
 
   constructor(private plt: Platform, private storage: Storage, private router: Router, private route: ActivatedRoute, private menu: MenuController) { }
 
@@ -32,7 +32,7 @@ export class ProfilePage {
   }
 
   nameChange() {
-    this.disabled = (this.name == "");
+    // this.disabled = (this.name == "");
   }
 
   async save() {

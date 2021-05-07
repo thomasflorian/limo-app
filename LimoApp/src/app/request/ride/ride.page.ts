@@ -33,6 +33,7 @@ export class RidePage {
   })
   mapElement: ElementRef;
   map: google.maps.Map;
+  sub: any;
   constructor(
     private alertController: AlertController,
     private loadingController: LoadingController,
@@ -90,7 +91,7 @@ export class RidePage {
         await this.storage.set('userId', userId);
         loading.dismiss();
         this.confirmed = true;
-        this.db
+        this.sub = this.db
           .collection('requests')
           .doc(userId)
           .valueChanges()
@@ -139,6 +140,7 @@ export class RidePage {
     const loading = await this.loadingController.create();
     const userId = await this.storage.get('userId');
     const driverId = await this.storage.get('driverId');
+    this.sub?.unsubscribe();
     await loading.present();
     // Create cancel request
     const data: CancelRequest = {
