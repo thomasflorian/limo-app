@@ -1,19 +1,7 @@
-import {
-  AngularFirestore
-} from '@angular/fire/firestore';
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef
-} from '@angular/core';
-import {
-  Router,
-  ActivatedRoute
-} from '@angular/router';
-import {
-  Location
-} from '../../interfaces/location';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '../../interfaces/location';
 import {
   IonRouterOutlet,
   MenuController,
@@ -22,35 +10,28 @@ import {
   LoadingController,
   AlertController,
 } from '@ionic/angular';
-import {
-  Geolocation
-} from '@ionic-native/geolocation/ngx';
-import {
-  Storage
-} from '@ionic/storage-angular';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Storage } from '@ionic/storage-angular';
 import * as firebase from 'firebase';
-import {
-  RequestsService
-} from '../services/requests.service';
-import {
-  RideRequest,
-  CancelRequest
-} from 'src/app/interfaces/request';
+import { RequestsService } from '../services/requests.service';
+import { RideRequest, CancelRequest } from 'src/app/interfaces/request';
 @Component({
   selector: 'app-ride',
   templateUrl: './ride.page.html',
   styleUrls: ['./ride.page.scss'],
 })
 export class RidePage {
-  eta: number = 8;
+  eta: number = 7;
   pickupLoc: Location;
   dropoffLoc: Location;
   confirmed: boolean = false;
+  pickedUp: boolean = false;
 
   // ViewChild selects the div element with id:"map" to load the map into.
   @ViewChild('map', {
-    static: false
-  }) mapElement: ElementRef;
+    static: false,
+  })
+  mapElement: ElementRef;
   map: google.maps.Map;
   constructor(
     private alertController: AlertController,
@@ -104,21 +85,48 @@ export class RidePage {
     // Send ride request to server.
     this.requestsService.request(data).subscribe(
       async (res) => {
-          // Record assigned driver id.
-          await this.storage.set('driverId', res.driverID);
-          await this.storage.set('userId', userId);
-          loading.dismiss();
-          this.confirmed = true;
-        },
-        async (err) => {
-          loading.dismiss();
-          const requestError = await this.alertController.create({
-            header: 'Request Error',
-            message: 'Error requesting ride.',
-            buttons: ['OK'],
+        // Record assigned driver id.
+        await this.storage.set('driverId', res.driverID);
+        await this.storage.set('userId', userId);
+        loading.dismiss();
+        this.confirmed = true;
+        this.db
+          .collection('requests')
+          .doc(userId)
+          .valueChanges()
+          .subscribe(async (res: any) => {
+            if (res == null) {
+              if (this.pickedUp) {
+                const cancelError = await this.alertController.create({
+                  header: 'Completed',
+                  message: 'Your ride has been completed!',
+                  buttons: ['OK'],
+                });
+                await cancelError.present();
+              } else {
+                const cancelError = await this.alertController.create({
+                  header: 'Canceled',
+                  message: 'Your ride has been canceled by the driver.',
+                  buttons: ['OK'],
+                });
+                await cancelError.present();
+              }
+              this.router.navigateByUrl('');
+            } else if (res.pickedUp) {
+              this.pickedUp = true;
+              this.eta = 4;
+            }
           });
-          await requestError.present();
-        }
+      },
+      async (err) => {
+        loading.dismiss();
+        const requestError = await this.alertController.create({
+          header: 'Request Error',
+          message: 'Error requesting ride.',
+          buttons: ['OK'],
+        });
+        await requestError.present();
+      }
     );
   }
   // Runs when back button is clicked;
@@ -135,25 +143,25 @@ export class RidePage {
     // Create cancel request
     const data: CancelRequest = {
       id: userId,
-      driverId: driverId
+      driverId: driverId,
     };
     // Send cancel request to server
     this.requestsService.cancel(data).subscribe(
       async (res) => {
-          await this.storage.remove('userId');
-          await this.storage.remove('driverId');
-          loading.dismiss();
-          this.navCtrl.navigateBack('request');
-        },
-        async (err) => {
-          loading.dismiss();
-          const requestError = await this.alertController.create({
-            header: 'Request Error',
-            message: 'Error canceling ride.',
-            buttons: ['OK'],
-          });
-          await requestError.present();
-        }
+        await this.storage.remove('userId');
+        await this.storage.remove('driverId');
+        loading.dismiss();
+        this.navCtrl.navigateBack('request');
+      },
+      async (err) => {
+        loading.dismiss();
+        const requestError = await this.alertController.create({
+          header: 'Request Error',
+          message: 'Error canceling ride.',
+          buttons: ['OK'],
+        });
+        await requestError.present();
+      }
     );
   }
 

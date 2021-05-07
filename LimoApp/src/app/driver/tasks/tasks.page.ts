@@ -150,7 +150,7 @@ export class TasksPage {
         ],
       });
       await actionSheet.present();
-    } else  {
+    } else {
       const actionSheet = await this.actionSheetController.create({
         header: 'Dropoff ' + request.name + ' at ' + request.dropoff.name,
         buttons: [

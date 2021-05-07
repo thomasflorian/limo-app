@@ -33,6 +33,6 @@
 <ion-footer class="ion-no-border ion-padding-bottom ion-margin-bottom ">
   <ion-row class="ion-justify-content-center">
     <ion-button [hidden]="confirmed" color="primary" size="large" (click)="confirm()">CONFIRM RIDE</ion-button>
-    <ion-button [hidden]="!confirmed" color="danger" size="large" (click)="cancel()">CANCEL RIDE</ion-button>
+    <ion-button [hidden]="!confirmed" [disabled]="pickedUp" color="danger" size="large" (click)="cancel()">CANCEL RIDE</ion-button>
   </ion-row>
 </ion-footer>
