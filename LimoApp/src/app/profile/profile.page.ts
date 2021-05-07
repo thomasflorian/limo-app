@@ -8,14 +8,14 @@ import { Storage } from '@ionic/storage-angular';
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage {
 
   name: string;
   tel: string;
   alerts: string;
   disabled: boolean = true;
 
-  constructor(private plt: Platform, private storage: Storage, private router: Router, private route: ActivatedRoute, private menu: MenuController, private routerOutlet: IonRouterOutlet) { }
+  constructor(private plt: Platform, private storage: Storage, private router: Router, private route: ActivatedRoute, private menu: MenuController) { }
 
   // Runs when menu bar icon is clicked.
   openMenu() {
@@ -24,9 +24,7 @@ export class ProfilePage implements OnInit {
   }
 
   // Runs when page first loads.
-  async ngOnInit() {
-    // Disables ability to swipe back to previous page.
-    this.routerOutlet.swipeGesture = false;
+  async ionViewWillEnter() {
     // Retrieves name, tel, and alerts values.
     this.name = await this.storage.get('name');
     this.tel = await this.storage.get('tel');

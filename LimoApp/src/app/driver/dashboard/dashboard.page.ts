@@ -9,9 +9,10 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
 })
-export class DashboardPage implements OnInit {
+export class DashboardPage {
 
   driver: any;
+  authListener: any;
 
   constructor(
     private menu: MenuController,
@@ -26,10 +27,14 @@ export class DashboardPage implements OnInit {
     this.menu.open('drivermenu');
   }
 
-  ngOnInit() {
-    this.authService.currentUser.subscribe((user) => {
+  ionViewWillEnter() {
+    this.authListener = this.authService.currentUser.subscribe((user) => {
       this.driver = user;
     });
+  }
+
+  ionViewWillLeave() {
+   this.authListener.unsubscribe();
   }
 
   async start() {

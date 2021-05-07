@@ -1,3 +1,4 @@
+
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Location } from './../../interfaces/location';
 import { Injectable } from '@angular/core';
@@ -14,7 +15,8 @@ export class LocationsService {
 
   async getLocations() {
     if (!this.locations) {
-      const snapshot = await this.db.collection("locations").get();
+      console.log("LOCATIONS RELOADED")
+      const snapshot = this.db.collection("locations").get();
       this.locations = (await snapshot.toPromise()).docs.map(doc => doc.data()) as Location[];
     }
     return this.locations;

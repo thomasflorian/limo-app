@@ -13,6 +13,7 @@ export class DriverPage implements OnInit {
   email: string;
   password: string;
   failedLogin: boolean = false;
+  loading: any;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -36,23 +37,24 @@ export class DriverPage implements OnInit {
   // Check email/password with google firebase backend
   async signIn() {
     // Create loading modal
-    const loading = await this.loadingController.create();
-    await loading.present();
+    this.loading = await this.loadingController.create();
+    await this.loading.present();
 
     this.authService.signIn({ email: this.email, password: this.password }).then((res) => {
       res.subscribe((user) => {
         // Successful login -> navigate to task page
-        loading.dismiss();
+        this.loading.dismiss();
         this.failedLogin = false;
         this.menu.enable(true, 'drivermenu');
         this.router.navigateByUrl("driver/dashboard", {state: res});
-      }, async err => {
-        // Unsuccessful login -> display notification
-        loading.dismiss();
-        this.failedLogin = true;
-      });
-    });
+      }, async err => this.signInError(err));
+    }).catch(err => this.signInError(err));
+  }
 
+  signInError(err) {
+      // Unsuccessful login -> display notification
+      this.loading.dismiss();
+      this.failedLogin = true;
   }
 
 }

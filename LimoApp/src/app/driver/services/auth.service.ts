@@ -1,10 +1,28 @@
-import { MenuController } from '@ionic/angular';
-import { Router } from '@angular/router';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, from, Observable } from 'rxjs';
-import { switchMap, take, tap } from 'rxjs/operators'
+import {
+  MenuController
+} from '@ionic/angular';
+import {
+  Router
+} from '@angular/router';
+import {
+  AngularFirestore
+} from '@angular/fire/firestore';
+import {
+  AngularFireAuth
+} from '@angular/fire/auth';
+import {
+  Injectable
+} from '@angular/core';
+import {
+  BehaviorSubject,
+  from,
+  Observable
+} from 'rxjs';
+import {
+  switchMap,
+  take,
+  tap
+} from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +70,10 @@ export class AuthService {
   }
 
   // Sign in user to firebase authentication.
-  async signIn({ email, password }){
+  async signIn({
+    email,
+    password
+  }) {
     const res = await this.afAuth.signInWithEmailAndPassword(email, password);
     return this.db.doc(`users/${res.user.uid}`).valueChanges().pipe(take(1));
   }

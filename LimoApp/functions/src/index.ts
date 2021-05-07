@@ -14,6 +14,8 @@ export const addRequest = functions.region("us-central1").https.onCall(async (da
             choosenDriver = drivers[i];
         }
     }
+
+    data = {...data, pickedUp: false}
     // Update choosen queue.
     const updatedRequests = choosenDriver.data().requests.concat([data]);
     const updatedQueuedRiders = choosenDriver.data().queuedRiders + 1;
@@ -42,5 +44,23 @@ export const cancelRequest = functions.region("us-central1").https.onCall(async 
     // Update driver information
     await db.collection("drivers").doc(data.driverId).update({requests: requests, queuedRiders: queuedRiders});
     await db.collection("requests").doc(data.id).delete();
+});
+
+
+export const pickupRequest = functions.region("us-central1").https.onCall(async (data) => {
+    // get driver list.
+    const driver = await db.collection("drivers").doc(data.driverId).get();
+    let requests = driver.get("requests");
+
+    // find and delete cancelled request.
+    for (let i = 0; i < requests.length; i++){
+        if (requests[i].id == data.id) {
+            requests[i].pickedUp = true;
+            break;
+        }
+    }
+    // Update driver information
+    await db.collection("drivers").doc(data.driverId).update({requests: requests});
+    await db.collection("requests").doc(data.id).update({pickedUp: true})
 });
 

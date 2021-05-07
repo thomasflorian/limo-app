@@ -13,3 +13,8 @@ export interface CancelRequest {
     id: string,
     driverId: string
 }
+
+export interface PickupRequest {
+    id: string,
+    driverId: string
+}

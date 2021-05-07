@@ -18,8 +18,9 @@
   <ion-grid>
     <ion-row style="z-index: 1; height: 0;">
       <ion-card style="width: 100%;">
-        <ion-item *ngFor="let request of requests | async">
-          <ion-label style="font-size: 0.8rem;">Pickup {{ request.name }} at {{ request.pickup }}</ion-label>
+        <ion-item button detail="false" (click)="taskClick(request)" *ngFor="let request of requests | async">
+          <ion-label style="font-size: 0.7rem;" *ngIf="!request.pickedUp">Pickup {{ request.name }} at {{ request.pickup.name }}</ion-label>
+          <ion-label style="font-size: 0.7rem;" *ngIf="request.pickedUp">Dropoff {{ request.name }} at {{ request.dropoff.name }}</ion-label>
         </ion-item>
       </ion-card>
     </ion-row>

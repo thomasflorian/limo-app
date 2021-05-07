@@ -1,3 +1,4 @@
+import { PickupRequest } from './../../interfaces/request';
 import { Injectable } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { RideRequest, CancelRequest } from '../../interfaces/request';
@@ -18,6 +19,11 @@ export class RequestsService {
   // Call cancelRequest cloud function (LimoApp/functions/src/index.ts)
   cancel(data: CancelRequest) {
     const callable = this.functions.httpsCallable("cancelRequest");
+    return callable(data);
+  }
+
+  pickUp(data: PickupRequest) {
+    const callable = this.functions.httpsCallable("pickupRequest");
     return callable(data);
   }
 

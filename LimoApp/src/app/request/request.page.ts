@@ -80,10 +80,10 @@ export class RequestPage implements OnInit {
   }
 
   // Runs once the view is loaded
-  async ionViewDidEnter() {
+  async ionViewWillEnter() {
     // Get name from storage
     await this.storage.create();
-    this.name = await this.storage.get('name');   //This line does not always work properly in the emulator
+    this.name = await this.storage.get('name'); 
     this.checkUserInfo();
     // Load the map
     this.loadMap();
@@ -179,7 +179,7 @@ export class RequestPage implements OnInit {
             // Check if profile is available.
             if (this.profileExists()) {
               // Navigate to ride page.
-              this.router.navigate(["ride"], { relativeTo: this.route, replaceUrl: true, state: { pickup: this.pickupLoc, dropoff: this.dropoffLoc, confirmed: false } });
+              this.router.navigateByUrl("request/ride", { state: { pickup: this.pickupLoc, dropoff: this.dropoffLoc, confirmed: false } });
             } else {
               // Present error.
               const profileError = await this.alertController.create({
